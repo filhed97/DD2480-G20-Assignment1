@@ -1,8 +1,8 @@
-public class Paramaters{
+public class Parameters{
 
-    //add data parameters		
+    //add data parameters
 
-    public Paramaters(){
+    public Parameters(){
 
     }
 
