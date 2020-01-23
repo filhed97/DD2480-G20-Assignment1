@@ -14,7 +14,7 @@ public class Main{
     LogicalOperators[][] LCM = new LogicalOperators[15][15];
     Boolean[] PUV = new Boolean[15];
     String LAUNCH;
-    Boolean[] CMV = new Boolean[15];
+    Boolean[] cmv = new Boolean[15];
     Boolean[][] PUM = new Boolean[15][15];
     Boolean[] FUV = new Boolean[15];
 
