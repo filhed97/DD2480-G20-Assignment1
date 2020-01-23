@@ -1,9 +1,9 @@
 Attention!
-* Don't forget to pull before each new commit
-* In the commit message add the issue you're working on at the end of the title e.g. "Generic title #0"
-* Don't include compiled files or binaries to the repo.
+* Don't forget to pull before each new commit.
+* In the commit message add the issue you're working on at the end of the title e.g. "Generic title #0".
+* Don't include compiled files or binaries in the repo.
 
-Here is the current individual tasks:
+Here are the current individual tasks:
 * Julien
   1. JUnit test file
   2. CMV function 0,4,8 and 12
@@ -25,3 +25,8 @@ Here is the current individual tasks:
   1. CMV function 23,7 and 11
   2. PUM function
   3. Tests 4,8 and 12
+  
+ Remaining tasks to assign:
+ * Test for the whole project
+ * Test for the functions fillCMV, LAUNCH,FUV and PUM
+ * Write the README
