@@ -15,8 +15,8 @@ public class CMV{
 
     }
 
-    public void fillCMV(Boolean[] CMV){
-
+    public boolean[] DECIDE(){
+      return null;
     }
 
     private boolean LIC0(){
