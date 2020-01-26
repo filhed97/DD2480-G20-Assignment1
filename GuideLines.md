@@ -7,8 +7,10 @@ Here are the current individual tasks:
 * Julien
   1. JUnit test file
   2. CMV function 0,4,8 and 12
-  3. fillCMV function
+  3. DECIDE function
   4. Tests 1,5,9 and 13
+  5. Write the README
+  6. Test DECIDE, FUV functions
 
 * Filip
   1. Variables & Skeleton
@@ -22,11 +24,11 @@ Here are the current individual tasks:
   3. Tests 0,3,7 and 11
 
 * Susie
-  1. CMV function 23,7 and 11
+  1. CMV function 3,7 and 11
   2. PUM function
   3. Tests 4,8 and 12
-  
+
  Remaining tasks to assign:
- * Test for the whole project
- * Test for the functions fillCMV, LAUNCH,FUV and PUM
- * Write the README
+ * **3 tests for the whole project**
+ * Test for the functions LAUNCH,FUV and PUM
+ * Write main function
