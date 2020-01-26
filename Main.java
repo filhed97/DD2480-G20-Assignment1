@@ -23,4 +23,21 @@ public class Main{
 
     }
 
+    //Fills the FUV by reading the PUV and PUM
+    private void fillFUV(){
+        for(int i = 0; i < 15; i++){
+            if(!PUV[i]){ // If PUV[i] is false PUM[i] doesn't matter, FUV[i] is always true
+                FUV[i] = true;
+                continue;
+            } else { //otherwise makes sure everything in PUM[i] is true
+                for(int j = 0; j < 14; j++){
+                    if(!PUM[i][j]){
+                        FUV[i] = false;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
 }
