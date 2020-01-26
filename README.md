@@ -3,22 +3,23 @@
 
 # Launch Interceptor Program
 
-### Determines whether an interceptor should be launched based upon input radar tracking information.
+#### Determines whether an interceptor should be launched based upon input radar tracking information.
 
-The program determines the boolean values of 15 _Launch Interceptor Conditions_ (LIC) depending on the points on the radar `POINTS` and the relevant parameters `PARAMETERS`.
+The program determines the boolean values of 15 _Launch Interceptor Conditions_ `LIC` depending on the points on the radar `POINTS` and the relevant parameters `PARAMETERS`.
 
-Then the _Logical Connector Matrix_ `LCM` defines how the output values of the LIC are combined (through logical _or_,_and_, or not used).
+Then the _Logical Connector Matrix_ `LCM` defines how the output values of the LIC are combined (through logical _or_, _and_ or _not used_).
 
-The _Preliminary Unlocking Vector_ `PUV` determines which LIC actually matters in for the launch. A entry at value `true` means that the corresponding LIC will be effectively considered.
+The _Preliminary Unlocking Vector_ `PUV` determines which `LIC` actually matters in for the launch. An entry with value `true` means that the corresponding `LIC` will be effectively considered.
 
 The output is `true` if and only if the launch should be triggered.
 
-### Inputs
+## Inputs
+
 
 * `NUMPOINTS` The number of planar data points, an `int`.
-* `POINTS` An array of at most 100 `java.awt.Point` containing the coordinates of data points.
-* `PARAMETERS` A struct holding parameters for LIC’s, a `Parameters` object.
-* `LCM` The Logical Connector Matrix of `LogicalOperators` values. It has a size of 15x15.
+* `POINTS` An array of at most 100 `java.awt.Point` containing the coordinates of the data points.
+* `PARAMETERS` An object holding parameters for LIC’s, more details below, a `Parameters` object.
+* `LCM` The Logical Connector Matrix of `LogicalOperators` values (`NOTUSED`, `AND` and `ORR`) . It is a 15x15 array.
 * `PUV` The Preliminary Unlocking Vector an array of `boolean`of size 15.
 
 The object `Parameters` is composed of numerous values given in the order used by the constructor.
@@ -48,11 +49,11 @@ The object `Parameters` is composed of numerous values given in the order used b
 </ul>
 </details>
 
-### Output
+## Output
 
-The program outputs a boolean value that determines whether the lauch is intercepted or not.
+The program outputs the boolean value `LAUNCH` that determines whether the launch is intercepted or not.
 
-### Statement of contribution
+## Statement of contribution
 
 |Emil|Filip |
 |:--|:--|
