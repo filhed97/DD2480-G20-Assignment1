@@ -1,5 +1,10 @@
 import static org.junit.Assert.*;
 import org.junit.Test;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.CoreMatchers.*;
+import java.awt.Point;
+import java.util.Arrays;
+
 
 public class Tests {
 
@@ -24,13 +29,78 @@ public class Tests {
     //Ok or failure
 
     @Test
-    public void WhatIsAssertedInTheTest() {
+    public void WhatDoesTheTestAssert() {
         // assert statements
         // You can find other assertions on the following website.
         //http://junit.sourceforge.net/javadoc/org/junit/Assert.html
         assertEquals(0, 10*0);
         assertFalse(0 == 1);
-        assertNotEquals(1,1);
+        //assertNotEquals(1,1);//This assertion obviously fails
+
+        //Edit: Here is a description of the testing library Hamcrest but
+        //after coding some tests it seems like it's not really useful
+        //for this assignment
+        //
+        //
+        //Hamcrest is a library that makes the code and the output message
+        //more readable and efficient
+        //
+        //Use assertThat(effectiveValue, matcher(expectedValue));
+        //
+        //The structure is such that it is readable in english, keep that in mind
+        //when searching how to use a certain matcher.
+        //You can find more matchers like both(), anyOf(),
+        //not() or isNullValue() here:
+        //http://hamcrest.org/JavaHamcrest/javadoc/1.3/org/hamcrest/CoreMatchers.html
+        assertThat(1+1, equalTo(2));
+        assertThat(1+1, both(equalTo(2)).and(not(equalTo(0))));
+    }
+
+    //Initialize parameters
+    //Always intialize the relevant param values needed in your tests
+    private Parameters param = new Parameters(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+
+    //Object containing the input parameters, such as the PUV or the PUM,
+    //and the methods that compute their values.
+    private Main main = new Main();
+
+    //Tests that the FUV is filled accordingly to the PUM and the PUV:
+    //FUV[i] true iff PUV[i] is false or PUM[i,j] is true for all j.
+    //Cases: PUV true/false, PUM row all true/ contain false.
+    @Test
+    public void fillFUV(){
+      //Reset attributes
+      //main.FUV = new boolean[15];
+
+      //The PUV is filled with true except first value
+      //main.PUV = new boolean[15];
+      Arrays.fill(main.PUV, true);
+      main.PUV[0] = false;
+
+      //The PUM is filled with true except the 1st and 2nd rows that are
+      // entirely false and the 3rd row that contains a single false.
+      //main.PUM = new boolean[15][15];
+      Arrays.fill(main.PUM[0], false);
+      Arrays.fill(main.PUM[1], false);
+      for (int i = 2; i<15; i++) {
+        Arrays.fill(main.PUM[i], true);
+      }
+      main.PUM[2][14] = false;
+
+      //Expected outcomes:
+      //  FUV[0] = true since PUV[0] is false
+      //  FUV[1] = false since PUV[1] = true and PUM[1,j] = false for all j
+      //  FUV[2] = false since PUV[2] = true and PUM[2,14] = false
+      //  all remaining FUV should be true since PUV is true and PUM is true
+      main.fillFUV();
+      assertThat(main.FUV[0], equalTo(true));
+      assertThat(main.FUV[1], equalTo(false));
+      System.out.println("PUV[2] = " + main.PUV[2] +", PUM[2,14] = "+main.PUM[2][14]+", FUV[2] = "+main.FUV[2]);
+      assertThat(main.FUV[2], equalTo(false));
+      for (int i = 3; i < 15; i++ ) {
+        assertThat(main.FUV[i], equalTo(true));
+      }
+
 
     }
 }
