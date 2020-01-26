@@ -30,6 +30,7 @@ public class Main{
                 FUV[i] = true;
                 continue;
             } else { //otherwise makes sure everything in PUM[i] is true
+            FUV[i] = true;
                 for(int j = 0; j < 14; j++){
                     if(!PUM[i][j]){
                         FUV[i] = false;
