@@ -2,10 +2,10 @@ import java.awt.Point;
 
 public class Main{
 
-    enum LogicalOperators {
-  	   NOTUSED,
-  	   ORR,
- 	     ANDD
+    public enum LogicalOperators {
+        NOTUSED,
+        ORR,
+        ANDD
     }
 
     public int NUMPOINTS;
@@ -14,13 +14,17 @@ public class Main{
     public LogicalOperators[][] LCM = new LogicalOperators[15][15];
     public boolean[] PUV = new boolean[15];
     public String LAUNCH;
-    public boolean[] cmv = new boolean[15];
+    public boolean[] cmvResult = new boolean[15];
     public boolean[][] PUM = new boolean[15][15];
     public boolean[] FUV = new boolean[15];
 
-    public static void main(String[] args){
-
-
+    public void getLaunch(){
+        CMV cmv = new CMV(NUMPOINTS, POINTS, PARAMETERS);
+        cmvResult = cmv.DECIDE();
+        //fillPUM();
+        fillFUV();
+        //Launch();
+        LAUNCH = "Yes";
     }
 
     //Fills the FUV by reading the PUV and PUM

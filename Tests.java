@@ -29,6 +29,35 @@ public class Tests {
     //Time: x.xxx
     //Ok or failure
 
+    @Test 
+    public void Main1(){
+        Main main = new Main();
+        main.NUMPOINTS = 5;
+        main.POINTS = new Point[]{new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0)};
+        main.PARAMETERS = new Parameters(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19);
+        /*main.LCM = new Main.LogicalOperators[]{
+                                                {Main.LogicalOperators.NOTUSED, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE},
+                                                {main.LogicalOperators.TRUE, main.LogicalOperators.NOTUSED, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE},
+                                                {main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.NOTUSED, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE},
+                                                {main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.NOTUSED, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE},
+                                                {main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.NOTUSED, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE},
+                                                {main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.NOTUSED, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE},
+                                                {main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.NOTUSED, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE},
+                                                {main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.NOTUSED, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE},
+                                                {main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.NOTUSED, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE},
+                                                {main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.NOTUSED, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE},
+                                                {main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.NOTUSED, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE},
+                                                {main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.NOTUSED, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE},
+                                                {main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.NOTUSED, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE},
+                                                {main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.NOTUSED, main.LogicalOperators.TRUE},
+                                                {main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, main.LogicalOperators.TRUE, Main.LogicalOperators.NOTUSED}};
+                                                */
+
+        main.getLaunch();
+
+        assertThat(main.LAUNCH, equalTo("YES"));
+    }
+
     @Test
     public void WhatDoesTheTestAssert() {
         // assert statements
@@ -93,7 +122,7 @@ public class Tests {
       for (int i=0; i<15; i++) {
         assertThat(effective[i], equalTo(expected[i]));
       }
-
+    }
 
     //Tests that the FUV is filled accordingly to the PUM and the PUV:
     //FUV[i] true iff PUV[i] is false or PUM[i,j] is true for all j.
