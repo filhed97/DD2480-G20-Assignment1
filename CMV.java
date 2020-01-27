@@ -24,18 +24,23 @@ public class CMV{
     }
 
     private boolean LIC1(){
-		double x,y;
 		for(int i = 0; i<=NUMPOINTS-2; i++){	
-			//calculate centre of circle
-			x = (POINTS[i].getX() + POINTS[i+1].getX() + POINTS[i+2].getX())/3;
-			y = (POINTS[i].getY() + POINTS[i+1].getY() + POINTS[i+2].getY())/3;
+			Point a,b,c,centre;
+			a = POINTS[i];
+			b = POINTS[i+1];
+			c = POINTS[i+2];
+			
+			double x = (a.getX() + b.getX() + c.getX())/3;
+			double y = (a.getY() + b.getY() + c.getY())/3;
+			centre = new Point(0,0);
+			centre.setLocation(x,y);
 			
 			//calculate all distances and compare to radius
 			//if one point is outside circle centered around 3 points with spec. radius, LIC is true.
-			if(Math.sqrt(Math.pow(POINTS[i].getX() - x, 2)+Math.pow(POINTS[i].getY() - y, 2)) > param.RADIUS1
-			||	Math.sqrt(Math.pow(POINTS[i+1].getX() - x, 2)+Math.pow(POINTS[i+1].getY() - y, 2)) > param.RADIUS1
-			||	Math.sqrt(Math.pow(POINTS[i+2].getX() - x, 2)+Math.pow(POINTS[i+2].getY() - y, 2)) > param.RADIUS1)
-				return true;	
+			if(centre.distance(a) > param.RADIUS1
+			||	centre.distance(b) > param.RADIUS1
+			||	centre.distance(c) > param.RADIUS1)
+				return true;
 		}
         return false;
     }
@@ -73,7 +78,16 @@ public class CMV{
     }
 
     private boolean LIC9(){
-      return false;
+		for(int i = 0; i<=NUMPOINTS-(param.CPTS+param.DPTS+2); i++){
+			Point a,b,c;
+			a = POINTS[i];
+			b = POINTS[i+param.CPTS+1];
+			c = POINTS[i+param.CPTS+param.DPTS+2];
+			double angle = calculateAngle(a, b, c);
+			if(angle > (Math.PI + param.EPSILON) || angle < (Math.PI - param.EPSILON))
+				return true;
+		}
+        return false;
     }
 
     private boolean LIC10(){
@@ -89,10 +103,42 @@ public class CMV{
     }
 
     private boolean LIC13(){
-      return false;
+		boolean condition1 = false;
+		boolean condition2 = false;
+		for(int i = 0; i<=NUMPOINTS-(param.APTS+param.BPTS+2); i++){
+			Point a,b,c,centre;
+			a = POINTS[i];
+			b = POINTS[i+param.APTS+1];
+			c = POINTS[i+param.APTS+param.BPTS+2];
+			
+			double x = (a.getX() + b.getX() + c.getX())/3;
+			double y = (a.getY() + b.getY() + c.getY())/3;
+			centre = new Point(0,0);
+			centre.setLocation(x,y);
+			
+			if(centre.distance(a) > param.RADIUS1
+			||	centre.distance(b) > param.RADIUS1
+			||	centre.distance(c) > param.RADIUS1)
+				condition1 = true;	
+				
+			if(centre.distance(a) <= param.RADIUS2
+			||	centre.distance(b) <= param.RADIUS2
+			||	centre.distance(c) <= param.RADIUS2)
+				condition2 = true;
+		}
+		
+		if(condition1 && condition2)
+			return true;
+		
+		return false;
     }
 
     private boolean LIC14(){
       return false;
+    }
+	
+	//Calculates the angle between the lines a-b and b-c
+    private double calculateAngle(Point a, Point b, Point c){
+      return Math.atan2(c.getY() - b.getY(), c.getX() - b.getX()) - Math.atan2(a.getY() - b.getY(), c.getX() - c.getY());
     }
 }
