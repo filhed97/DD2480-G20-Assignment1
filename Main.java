@@ -8,19 +8,37 @@ public class Main{
  	     ANDD
     }
 
-    int NUMPOINTS;
-    Point[] POINTS;
-    Parameters PARAMETERS;
-    LogicalOperators[][] LCM = new LogicalOperators[15][15];
-    Boolean[] PUV = new Boolean[15];
-    String LAUNCH;
-    Boolean[] cmv = new Boolean[15];
-    Boolean[][] PUM = new Boolean[15][15];
-    Boolean[] FUV = new Boolean[15];
+    public int NUMPOINTS;
+    public Point[] POINTS;
+    public Parameters PARAMETERS;
+    public LogicalOperators[][] LCM = new LogicalOperators[15][15];
+    public boolean[] PUV = new boolean[15];
+    public String LAUNCH;
+    public boolean[] cmv = new boolean[15];
+    public boolean[][] PUM = new boolean[15][15];
+    public boolean[] FUV = new boolean[15];
 
     public static void main(String[] args){
 
 
+    }
+
+    //Fills the FUV by reading the PUV and PUM
+    public void fillFUV(){
+        for(int i = 0; i < 15; i++){
+            if(!PUV[i]){ // If PUV[i] is false PUM[i] doesn't matter, FUV[i] is always true
+                FUV[i] = true;
+                continue;
+            } else { //otherwise makes sure everything in PUM[i] is true
+            FUV[i] = true;
+                for(int j = 0; j < 15; j++){
+                    if(!PUM[i][j]){
+                        FUV[i] = false;
+                        break;
+                    }
+                }
+            }
+        }
     }
 
 }
