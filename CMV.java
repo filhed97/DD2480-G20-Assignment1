@@ -28,23 +28,7 @@ public class CMV{
       return false;
     }
 
-    //Returns true if there exists three consecutive points which form an angle 
-    //larger than PI + Epsilon or smaller than PI - epsilon
     private boolean LIC2(){
-      if(param.EPSILON < 0 || param.EPSILON > Math.PI){
-        return false;
-      }
-
-      Point a, b, c;
-      for(int i = 0; i < NUMPOINTS - 2; i++){
-        a = POINTS[i];
-        b = POINTS[i + 1];
-        c = POINTS[i + 2];
-        double angle = calculateAngle(a, b, c);
-        if(angle > (Math.PI + param.EPSILON) || angle < (Math.PI - param.EPSILON)){
-          return true;
-        }
-      }
       return false;
     }
 
@@ -60,36 +44,7 @@ public class CMV{
       return false;
     }
 
-    //Returns true if there exists a set of NPTS consecutive points where one of the points lies a distance larger
-    //then DIST away from the line passing through the first and last point of the set
     private boolean LIC6(){
-      if(NUMPOINTS < 3){
-        return false;
-      }
-      if(param.DIST < 0 || param.NPTS < 3 || param.NPTS > NUMPOINTS){
-        return false;
-      }
-
-      Point start, end;
-      for(int i = 0; i < NUMPOINTS - param.NPTS; i++){
-        start = POINTS[i];
-        end = POINTS[i + param.NPTS];
-        if(start.equals(end)){
-          for(int j = i + 1; j < i + param.NPTS - 1; j++){
-            double dist = distancePoint(POINTS[j], start);
-            if(dist > param.DIST){
-              return true;
-            }
-          }
-        } else {
-          for(int j = i + 1; j < i + param.NPTS - 1; j++){
-            double dist = distanceToLine(start, end, POINTS[j]);
-            if(dist > param.DIST){
-              return true;
-            }
-          }
-        }
-      }
       return false;
     }
 
@@ -105,26 +60,7 @@ public class CMV{
       return false;
     }
 
-    //Return true if there exists three points seperated by param.EPTS and param.FPTS respictively
-    //which together create a traingle with an area larger than AREA1
     private boolean LIC10(){
-      if(NUMPOINTS < 5){
-        return false;
-      }
-      if(param.EPTS < 1 || param.FPTS < 1 || (param.EPTS + param.FPTS > NUMPOINTS-3)){
-        return false;
-      }
-
-      Point a, b, c;
-      for(int i = 0; i < NUMPOINTS - param.EPTS - param.FPTS; i++){
-        a = POINTS[i];
-        b = POINTS[i + param.EPTS];
-        c = POINTS[i + param.EPTS + param.FPTS];
-        double area = calculateTriangleArea(a, b, c);
-        if(area > param.AREA1){
-          return true;
-        }
-      }
       return false;
     }
 
@@ -140,34 +76,7 @@ public class CMV{
       return false;
     }
 
-    //Return true if there exists three points seperated by EPTS and FPTS respictively
-    //which together create a traingle with an area larger than AREA1 and there also three points seperated
-    //by EPTS and FPTS respictively which together create a traingle with an area smaller than AREA2
     private boolean LIC14(){
-      if(NUMPOINTS < 5){
-        return false;
-      }
-      if(param.EPTS < 1 || param.FPTS < 1 || (param.EPTS + param.FPTS > NUMPOINTS-3) || param.AREA2 < 0){
-        return false;
-      }
-
-      boolean largerExists = false, smallerExists = false;
-      Point a, b, c;
-      for(int i = 0; i < NUMPOINTS - param.EPTS - param.FPTS; i++){
-        a = POINTS[i];
-        b = POINTS[i + param.EPTS];
-        c = POINTS[i + param.EPTS + param.FPTS];
-        double area = calculateTriangleArea(a, b, c);
-        if(area > param.AREA1){
-          largerExists = true;
-        } else if (area < param.AREA2){
-          smallerExists = true;
-        }
-      }
-
-      if(largerExists && smallerExists){
-        return true;
-      }
       return false;
     }
 
