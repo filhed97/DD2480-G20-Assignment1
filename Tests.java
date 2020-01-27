@@ -166,12 +166,12 @@ public class Tests {
       Point[] data1 = {a,b,c,d,e}; // a,b,c can be contained
       CMV cmv1 = new CMV(5, data1, param);
       //data1 doesn't satisfy LIC1 thus should not be true
-      assertThat(cmv1.DECIDE()[1], is(not(equalTo(true)))); //lots of syntatic sugar
+      assertThat(cmv1.LIC1(), is(not(equalTo(true)))); //lots of syntatic sugar
 
       Point[] data2 = {a,d,b,e,c}; // cannot be contained
       CMV cmv2 = new CMV(5, data2, param);
       //data2 satisfy LIC1 thus should be true
-      assertThat(cmv2.DECIDE()[1], is((equalTo(true))));
+      assertThat(cmv2.LIC1(), is((equalTo(true))));
 
       //Let's create an equilateral triangle of side length 2
       b.setLocation(2,0);
@@ -179,7 +179,7 @@ public class Tests {
       Point[] data3 = {a,b,c};
       //data3 doesn't satisfy LIC1
       CMV cmv3 = new CMV(3, data3, param);
-      assertThat(cmv3.DECIDE()[1], equalTo(false));
+      assertThat(cmv3.LIC1(), equalTo(false));
     }
 
     //Tests true iff there exists 2 consecutive points such that
@@ -190,16 +190,19 @@ public class Tests {
       Point a = new Point(1,0);
       Point b = new Point(0,0);
 
+      System.out.println("Test 1");
       Point[] data1 = {a,b};
       CMV cmv1 = new CMV(2, data1, param);
       assertThat(cmv1.LIC5(), equalTo(true));//b.X - a.X = -1 < 0
 
+      System.out.println("Test 2");
       Point[] data2 = {a,a,a,a,a,a};
-      CMV cmv2 =  new CMV(6, data1,param);
+      CMV cmv2 =  new CMV(6, data2,param);
       assertThat(cmv2.LIC5(), equalTo(false));// a.X - a.X not strictly less than 0
 
+      System.out.println("Test 3");
       Point[] data3 = {b,a};
-      CMV cmv3 =  new CMV(2, data1,param);
+      CMV cmv3 =  new CMV(2, data3,param);
       assertThat(cmv3.LIC5(), equalTo(false));//a.X - b.X = 1 > 0
     }
 

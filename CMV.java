@@ -78,7 +78,6 @@ public class CMV{
 
     public boolean LIC5(){
 		for(int i = 0; i<NUMPOINTS-1; i++){
-      System.out.println(POINTS[i+1].getX()+" - "+POINTS[i].getX());
 			if(POINTS[i+1].getX()-POINTS[i].getX() < 0)
 				return true;
 		}
@@ -98,15 +97,15 @@ public class CMV{
     }
 
     public boolean LIC9(){
-		for(int i = 0; i<NUMPOINTS-(param.CPTS+param.DPTS+2); i++){
-			Point a,b,c;
-			a = POINTS[i];
-			b = POINTS[i+param.CPTS+1];
-			c = POINTS[i+param.CPTS+param.DPTS+2];
-			double angle = calculateAngle(a, b, c);
-			if(angle > (Math.PI + param.EPSILON) || angle < (Math.PI - param.EPSILON))
-				return true;
-		}
+  		for(int i = 0; i<NUMPOINTS-(param.CPTS+param.DPTS+2); i++){
+  			Point a,b,c;
+  			a = POINTS[i];
+  			b = POINTS[i+param.CPTS+1];
+  			c = POINTS[i+param.CPTS+param.DPTS+2];
+  			double angle = calculateAngle(a, b, c);
+  			if(angle > (Math.PI + param.EPSILON) || angle < (Math.PI - param.EPSILON))
+  				return true;
+  		}
         return false;
     }
     public boolean LIC10(){
