@@ -24,7 +24,20 @@ public class CMV{
     }
 
     private boolean LIC1(){
-      return false;
+		double x,y;
+		for(int i = 0; i<=NUMPOINTS-2; i++){	
+			//calculate centre of circle
+			x = (POINTS[i].getX() + POINTS[i+1].getX() + POINTS[i+2].getX())/3;
+			y = (POINTS[i].getY() + POINTS[i+1].getY() + POINTS[i+2].getY())/3;
+			
+			//calculate all distances and compare to radius
+			//if one point is outside circle centered around 3 points with spec. radius, LIC is true.
+			if(Math.sqrt(Math.pow(POINTS[i].getX() - x, 2)+Math.pow(POINTS[i].getY() - y, 2)) > param.RADIUS1
+			||	Math.sqrt(Math.pow(POINTS[i+1].getX() - x, 2)+Math.pow(POINTS[i+1].getY() - y, 2)) > param.RADIUS1
+			||	Math.sqrt(Math.pow(POINTS[i+2].getX() - x, 2)+Math.pow(POINTS[i+2].getY() - y, 2)) > param.RADIUS1)
+				return true;	
+		}
+        return false;
     }
 
     private boolean LIC2(){
@@ -40,7 +53,11 @@ public class CMV{
     }
 
     private boolean LIC5(){
-      return false;
+		for(int i = 0; i<=NUMPOINTS-1; i++){
+			if(POINTS[i+1].getX()-POINTS[i].getX() < 0)
+				return true;
+		}
+        return false;
     }
 
     private boolean LIC6(){
