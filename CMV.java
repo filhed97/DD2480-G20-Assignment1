@@ -37,63 +37,63 @@ public class CMV{
       return cmv;
     }
 
-    private boolean LIC0(){
+    public boolean LIC0(){
       return false;
     }
 
-    private boolean LIC1(){
+    public boolean LIC1(){
       return false;
     }
 
-    private boolean LIC2(){
+    public boolean LIC2(){
       return false;
     }
 
-    private boolean LIC3(){
+    public boolean LIC3(){
       return false;
     }
 
-    private boolean LIC4(){
+    public boolean LIC4(){
       return false;
     }
 
-    private boolean LIC5(){
+    public boolean LIC5(){
       return false;
     }
 
-    private boolean LIC6(){
+    public boolean LIC6(){
       return false;
     }
 
-    private boolean LIC7(){
+    public boolean LIC7(){
       return false;
     }
 
-    private boolean LIC8(){
+    public boolean LIC8(){
       return false;
     }
 
-    private boolean LIC9(){
+    public boolean LIC9(){
       return false;
     }
 
-    private boolean LIC10(){
+    public boolean LIC10(){
       return false;
     }
 
-    private boolean LIC11(){
+    public boolean LIC11(){
       return false;
     }
 
-    private boolean LIC12(){
+    public boolean LIC12(){
       return false;
     }
 
-    private boolean LIC13(){
+    public boolean LIC13(){
       return false;
     }
 
-    private boolean LIC14(){
+    public boolean LIC14(){
       return false;
     }
 }

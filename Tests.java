@@ -12,16 +12,16 @@ public class Tests {
     //Documentation : https://github.com/junit-team/junit4/wiki/Getting-started
     // Compile Tests class
     //   Linux and MAC :
-    //   javac -cp .:junit-4.13.jar:hamcrest-core-1.3.jar Tests.java
+    //   javac -cp .:junit-4.13.jar:hamcrest-core-1.3.jar:mockito-all-1.9.5.jar Tests.java
     //
     //   Windows
-    //   javac -cp .;junit-4.13.jar;hamcrest-core-1.3.jar Tests.java
+    //   javac -cp .;junit-4.13.jar;hamcrest-core-1.3.jar;mockito-all-1.9.5.jar Tests.java
     //
     // Run tests
     //   Linux or MacOS
-    //   java -cp .:junit-4.13.jar:hamcrest-core-1.3.jar org.junit.runner.JUnitCore Tests
+    //   java -cp .:junit-4.13.jar:hamcrest-core-1.3.jar:mockito-all-1.9.5.jar org.junit.runner.JUnitCore Tests
     //   Windows
-    //   java -cp .;junit-4.13.jar;hamcrest-core-1.3.jar org.junit.runner.JUnitCore Tests
+    //   java -cp .;junit-4.13.jar;hamcrest-core-1.3.jar;mockito-all-1.9.5.jar org.junit.runner.JUnitCore Tests
 
     //Output format:
     //Junit version 4.13
@@ -65,7 +65,34 @@ public class Tests {
     @Test
     public void DECIDE(){
       CMV MockCMV = mock(CMV.class);
-      when(MockCMV.LIC0()).thenReturn(true);
+      boolean[] expected = {true,false,false,true,false,
+                            true,true,true,false, true,
+                            false,false,true,false,true};
+
+      when(MockCMV.LIC0()).thenReturn(expected[0]);
+      when(MockCMV.LIC1()).thenReturn(expected[1]);
+      when(MockCMV.LIC2()).thenReturn(expected[2]);
+      when(MockCMV.LIC3()).thenReturn(expected[3]);
+      when(MockCMV.LIC4()).thenReturn(expected[4]);
+      when(MockCMV.LIC5()).thenReturn(expected[5]);
+      when(MockCMV.LIC6()).thenReturn(expected[6]);
+      when(MockCMV.LIC7()).thenReturn(expected[7]);
+      when(MockCMV.LIC8()).thenReturn(expected[8]);
+      when(MockCMV.LIC9()).thenReturn(expected[9]);
+      when(MockCMV.LIC10()).thenReturn(expected[10]);
+      when(MockCMV.LIC11()).thenReturn(expected[11]);
+      when(MockCMV.LIC12()).thenReturn(expected[12]);
+      when(MockCMV.LIC13()).thenReturn(expected[13]);
+      when(MockCMV.LIC14()).thenReturn(expected[14]);
+
+      when(MockCMV.DECIDE()).thenCallRealMethod();
+      boolean[] effective = MockCMV.DECIDE();
+      for (int i=0; i<15; i++) {
+        assertThat(effective[i], equalTo(expected[i]));
+      }
+
+
+
 
     }
 
