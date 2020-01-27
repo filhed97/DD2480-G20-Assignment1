@@ -1,6 +1,3 @@
-
-
-
 # Launch Interceptor Program
 
 #### Determines whether an interceptor should be launched based upon input radar tracking information.
@@ -57,6 +54,6 @@ The program outputs the boolean value `LAUNCH` that determines whether the launc
 
 |Emil|Filip |
 |:--|:--|
-| `CMV` function 2,6,10 and 14 <br/> `FUV` function <br/>Tests 0,3,7 and 11 | Variables & Skeleton <br/> `CMV` function 1,5,9 and 13 <br/> `LAUNCH` function <br/> Tests 2,6,10 and 14 <br/> |
+| `CMV` function 2,6,10 and 14 <br/> `FUV` function <br/>Tests 0,3,7 and 11 <br/> `main` function| Variables & Skeleton <br/> `CMV` function 1,5,9 and 13 <br/> `LAUNCH` function <br/> Tests 2,6,10 and 14 <br/> |
 |**Julien** | **Susie** |
 `CMV` function 0,4,8 and 12 <br/> `DECIDE` function <br/> Tests 1,5,9 and 13 <br/> Write the README <br/> Test `DECIDE`, `FUV` functions <br/>  | `CMV` function 3,7 and 11 <br/> `PUM` function <br/> Tests 4,8 and 12 <br/>  |

@@ -22,6 +22,7 @@ Here are the current individual tasks:
   1. CMV function 2,6,10 and 14
   2. FUV function
   3. Tests 0,3,7 and 11
+  4. Write main function
 
 * Susie
   1. CMV function 3,7 and 11
@@ -30,5 +31,5 @@ Here are the current individual tasks:
 
  Remaining tasks to assign:
  * **3 tests for the whole project**
- * Test for the functions LAUNCH,FUV and PUM
- * Write main function
+ * Tests for the functions LAUNCH and PUM
+ 
