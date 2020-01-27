@@ -16,67 +16,85 @@ public class CMV{
 
     }
 
-    public void fillCMV(Boolean[] CMV){
-
+    //Returns a new array implementing the cmv
+    //where each entry is true iff the relevant LIC is true
+    public boolean[] DECIDE(){
+      boolean [] cmv = new boolean[15];
+      cmv[0] = LIC0();
+      cmv[1] = LIC1();
+      cmv[2] = LIC2();
+      cmv[3] = LIC3();
+      cmv[4] = LIC4();
+      cmv[5] = LIC5();
+      cmv[6] = LIC6();
+      cmv[7] = LIC7();
+      cmv[8] = LIC8();
+      cmv[9] = LIC9();
+      cmv[10] = LIC10();
+      cmv[11] = LIC11();
+      cmv[12] = LIC12();
+      cmv[13] = LIC13();
+      cmv[14] = LIC14();
+      return cmv;
     }
 
-    private boolean LIC0(){
+    public boolean LIC0(){
       return false;
     }
 
-    private boolean LIC1(){
+    public boolean LIC1(){
       return false;
     }
 
-    private boolean LIC2(){
+    public boolean LIC2(){
       return false;
     }
 
-    private boolean LIC3(){
+    public boolean LIC3(){
       return false;
     }
 
-    private boolean LIC4(){
+    public boolean LIC4(){
       return false;
     }
 
-    private boolean LIC5(){
+    public boolean LIC5(){
       return false;
     }
 
-    private boolean LIC6(){
+    public boolean LIC6(){
       return false;
     }
 
-    private boolean LIC7(){
+    public boolean LIC7(){
       return false;
     }
 
-    private boolean LIC8(){
+    public boolean LIC8(){
       return false;
     }
 
-    private boolean LIC9(){
+    public boolean LIC9(){
       return false;
     }
 
-    private boolean LIC10(){
+    public boolean LIC10(){
       return false;
     }
 
-    private boolean LIC11(){
+    public boolean LIC11(){
       return false;
     }
 
-    private boolean LIC12(){
+    public boolean LIC12(){
       return false;
     }
 
-    private boolean LIC13(){
+    public boolean LIC13(){
       return false;
     }
 
-    private boolean LIC14(){
+    public boolean LIC14(){
       return false;
     }
 
