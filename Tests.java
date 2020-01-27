@@ -1,5 +1,11 @@
 import static org.junit.Assert.*;
 import org.junit.Test;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.CoreMatchers.*;
+import java.awt.Point;
+import static org.mockito.Mockito.*;
+
+
 
 public class Tests {
 
@@ -24,13 +30,43 @@ public class Tests {
     //Ok or failure
 
     @Test
-    public void WhatIsAssertedInTheTest() {
+    public void WhatDoesTheTestAssert() {
         // assert statements
         // You can find other assertions on the following website.
         //http://junit.sourceforge.net/javadoc/org/junit/Assert.html
         assertEquals(0, 10*0);
         assertFalse(0 == 1);
-        assertNotEquals(1,1);
+        //assertNotEquals(1,1);//This assertion obviously fails
+
+        //Edit: Here is a description of the testing library Hamcrest but
+        //after coding some tests it seems like it's not really useful
+        //for this assignment
+        //
+        //
+        //Hamcrest is a library that makes the code and the output message
+        //more readable and efficient
+        //
+        //Use assertThat(effectiveValue, matcher(expectedValue));
+        //
+        //The structure is such that it is readable in english, keep that in mind
+        //when searching how to use a certain matcher.
+        //You can find more matchers like both(), anyOf(),
+        //not() or isNullValue() here:
+        //http://hamcrest.org/JavaHamcrest/javadoc/1.3/org/hamcrest/CoreMatchers.html
+        assertThat(1+1, equalTo(2));
+        assertThat(1+1, both(equalTo(2)).and(not(equalTo(0))));
+    }
+
+    //Initialize parameters
+    //Always intialize the relevant param values needed in your tests
+    private Parameters param = new Parameters(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+
+
+    @Test
+    public void DECIDE(){
+      CMV MockCMV = mock(CMV.class);
+      when(MockCMV.LIC0()).thenReturn(true);
 
     }
+
 }
