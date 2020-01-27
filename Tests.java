@@ -33,4 +33,32 @@ public class Tests {
         assertNotEquals(1,1);
 
     }
+
+    //Tests true if there exists two consecutive points 
+    //a distance larger than LENGTH away from each other
+    @Test 
+    public void LIC0(){
+        param.Length = 3;
+        Point a, b;
+        
+        a = new Point(0, 0);
+        b = new Point(2, 2);
+
+        Point[] data1 = {a,b}; // a and b are too close
+        CMV cmv1 = new CMV(2, data1, param);
+        //data1 doesn't satisfy LIC0 thus should not be true
+        assertThat(cmv1.DECIDE()[0], is(not(equalTo(true)))); //lots of syntatic sugar
+
+        Point c = new Point(4, 0);
+        Point[] data2 = {a,c,b}; // a and c are further than LENGTH apart
+        CMV cmv2 = new CMV(3, data2, param);
+        //data2 satisfies LIC0 thus should be true
+        assertThat(cmv2.DECIDE()[0], is(equalTo(true))); //lots of syntatic sugar
+
+        c.setLocation(3, 0);
+        Point[] data3 = {a,c,b}; // a and c are exactly Length apart
+        CMV cmv3 = new CMV(3, data3, param);
+        //data3 doesn't satisfy LIC0 thus should not be true
+        assertThat(cmv3.DECIDE()[0], is(not(equalTo(true)))); //lots of syntatic sugar
+    }
 }
