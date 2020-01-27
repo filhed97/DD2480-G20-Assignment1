@@ -3,7 +3,6 @@ import org.junit.Test;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.*;
 import java.awt.Point;
-import java.util.Arrays;
 
 
 public class Tests {
@@ -60,7 +59,6 @@ public class Tests {
     //Always intialize the relevant param values needed in your tests
     private Parameters param = new Parameters(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
 
-<<<<<<< HEAD
 
     //How to test a function in general:
     // * Generate artificial inputs (points, param, etc.) such that you know
@@ -76,7 +74,7 @@ public class Tests {
 
     //Tests true iff there exists 3 consecutive points that together form
     // a triangle with area larger the AREA1
-    @Test 
+    @Test
     public void LIC3(){
         param.AREA1 = 4.5;
         Point a, b, c;
@@ -103,14 +101,14 @@ public class Tests {
         assertThat(cmv1.DECIDE()[3], is(not(equalTo(true))));
     }
 
-    //Tests true if there exists two points separated by exactly KPTS consecutive intervening 
+    //Tests true if there exists two points separated by exactly KPTS consecutive intervening
     //a distance larger than LENGTH away from each other
     @Test
     public void LIC7(){
         param.KPTS = 1;
         param.Length = 3;
         Point a, b, c;
-        
+
         a = new Point(0,0);
         b = new Point(2,2);
         c = new Point(4,0);
@@ -165,49 +163,6 @@ public class Tests {
         CMV cmv3 =  new CMV(6, data3,param);
         //data1 satisfies LIC11 thus should be true
         assertThat(cmv3.DECIDE()[5], equalTo(false));//a.X - b.X = 1 > 0
-=======
-    //Object containing the input parameters, such as the PUV or the PUM,
-    //and the methods that compute their values.
-    private Main main = new Main();
-
-    //Tests that the FUV is filled accordingly to the PUM and the PUV:
-    //FUV[i] true iff PUV[i] is false or PUM[i,j] is true for all j.
-    //Cases: PUV true/false, PUM row all true/ contain false.
-    @Test
-    public void fillFUV(){
-      //Reset attributes
-      //main.FUV = new boolean[15];
-
-      //The PUV is filled with true except first value
-      //main.PUV = new boolean[15];
-      Arrays.fill(main.PUV, true);
-      main.PUV[0] = false;
-
-      //The PUM is filled with true except the 1st and 2nd rows that are
-      // entirely false and the 3rd row that contains a single false.
-      //main.PUM = new boolean[15][15];
-      Arrays.fill(main.PUM[0], false);
-      Arrays.fill(main.PUM[1], false);
-      for (int i = 2; i<15; i++) {
-        Arrays.fill(main.PUM[i], true);
-      }
-      main.PUM[2][14] = false;
-
-      //Expected outcomes:
-      //  FUV[0] = true since PUV[0] is false
-      //  FUV[1] = false since PUV[1] = true and PUM[1,j] = false for all j
-      //  FUV[2] = false since PUV[2] = true and PUM[2,14] = false
-      //  all remaining FUV should be true since PUV is true and PUM is true
-      main.fillFUV();
-      assertThat(main.FUV[0], equalTo(true));
-      assertThat(main.FUV[1], equalTo(false));
-      System.out.println("PUV[2] = " + main.PUV[2] +", PUM[2,14] = "+main.PUM[2][14]+", FUV[2] = "+main.FUV[2]);
-      assertThat(main.FUV[2], equalTo(false));
-      for (int i = 3; i < 15; i++ ) {
-        assertThat(main.FUV[i], equalTo(true));
-      }
-
->>>>>>> master
 
         Point[] data4 = {b, c, d, a, d, a}; // no two points separated by GPTS have the second one with lower x-value
         CMV cmv4 = new CMV(6, data4, param);

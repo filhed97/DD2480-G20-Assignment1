@@ -33,7 +33,23 @@ public class CMV{
     }
 
     private boolean LIC3(){
-      return false;
+        if (NUMPOINTS < 3) {
+            return false;
+        }
+
+        Point a, b, c;
+        for (int i = 0; i < NUMPOINTS - 2; i++) {
+            a = POINTS[i];
+            b = POINTS[i + 1];
+            c = POINTS[i + 2];
+
+            double triangleArea = calculateTriangleArea(a, b, c);
+
+            if (triangleArea > param.AREA1) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private boolean LIC4(){
@@ -49,7 +65,23 @@ public class CMV{
     }
 
     private boolean LIC7(){
-      return false;
+        if (NUMPOINTS < 3) {
+            return false;
+        }
+
+        Point a, b;
+        for (int i = 0; i < NUMPOINTS - 1; i++) {
+            if (i + param.KPTS < NUMPOINTS) {
+                a = POINTS[i];
+                b = POINTS[i + param.KPTS];
+                double distance = distancePoint(a, b);
+
+                if (distance > param.LENGTH1) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private boolean LIC8(){
@@ -65,7 +97,22 @@ public class CMV{
     }
 
     private boolean LIC11(){
-      return false;
+        if (NUMPOINTS < 3) {
+            return false;
+        }
+
+        Point a, b;
+        for (int i = 0; i < NUMPOINTS - 1; i++) {
+            if (i + param.GPTS < NUMPOINTS) {
+                a = POINTS[i];
+                b = POINTS[i + param.GPTS];
+
+                if (a.getX() < b.getX()) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private boolean LIC12(){
