@@ -16,158 +16,85 @@ public class CMV{
 
     }
 
-    public void fillCMV(Boolean[] CMV){
-
+    //Returns a new array implementing the cmv
+    //where each entry is true iff the relevant LIC is true
+    public boolean[] DECIDE(){
+      boolean [] cmv = new boolean[15];
+      cmv[0] = LIC0();
+      cmv[1] = LIC1();
+      cmv[2] = LIC2();
+      cmv[3] = LIC3();
+      cmv[4] = LIC4();
+      cmv[5] = LIC5();
+      cmv[6] = LIC6();
+      cmv[7] = LIC7();
+      cmv[8] = LIC8();
+      cmv[9] = LIC9();
+      cmv[10] = LIC10();
+      cmv[11] = LIC11();
+      cmv[12] = LIC12();
+      cmv[13] = LIC13();
+      cmv[14] = LIC14();
+      return cmv;
     }
 
-    private boolean LIC0(){
+    public boolean LIC0(){
       return false;
     }
 
-    private boolean LIC1(){
+    public boolean LIC1(){
       return false;
     }
 
-    //Returns true if there exists three consecutive points which form an angle 
-    //larger than PI + Epsilon or smaller than PI - epsilon
-    private boolean LIC2(){
-      if(param.EPSILON < 0 || param.EPSILON > Math.PI){
-        return false;
-      }
-
-      Point a, b, c;
-      for(int i = 0; i < NUMPOINTS - 2; i++){
-        a = POINTS[i];
-        b = POINTS[i + 1];
-        c = POINTS[i + 2];
-        double angle = calculateAngle(a, b, c);
-        if(angle > (Math.PI + param.EPSILON) || angle < (Math.PI - param.EPSILON)){
-          return true;
-        }
-      }
+    public boolean LIC2(){
       return false;
     }
 
-    private boolean LIC3(){
+    public boolean LIC3(){
       return false;
     }
 
-    private boolean LIC4(){
+    public boolean LIC4(){
       return false;
     }
 
-    private boolean LIC5(){
+    public boolean LIC5(){
       return false;
     }
 
-    //Returns true if there exists a set of NPTS consecutive points where one of the points lies a distance larger
-    //then DIST away from the line passing through the first and last point of the set
-    private boolean LIC6(){
-      if(NUMPOINTS < 3){
-        return false;
-      }
-      if(param.DIST < 0 || param.NPTS < 3 || param.NPTS > NUMPOINTS){
-        return false;
-      }
-
-      Point start, end;
-      for(int i = 0; i < NUMPOINTS - param.NPTS; i++){
-        start = POINTS[i];
-        end = POINTS[i + param.NPTS];
-        if(start.equals(end)){
-          for(int j = i + 1; j < i + param.NPTS - 1; j++){
-            double dist = distancePoint(POINTS[j], start);
-            if(dist > param.DIST){
-              return true;
-            }
-          }
-        } else {
-          for(int j = i + 1; j < i + param.NPTS - 1; j++){
-            double dist = distanceToLine(start, end, POINTS[j]);
-            if(dist > param.DIST){
-              return true;
-            }
-          }
-        }
-      }
+    public boolean LIC6(){
       return false;
     }
 
-    private boolean LIC7(){
+    public boolean LIC7(){
       return false;
     }
 
-    private boolean LIC8(){
+    public boolean LIC8(){
       return false;
     }
 
-    private boolean LIC9(){
+    public boolean LIC9(){
       return false;
     }
 
-    //Return true if there exists three points seperated by param.EPTS and param.FPTS respictively
-    //which together create a traingle with an area larger than AREA1
-    private boolean LIC10(){
-      if(NUMPOINTS < 5){
-        return false;
-      }
-      if(param.EPTS < 1 || param.FPTS < 1 || (param.EPTS + param.FPTS > NUMPOINTS-3)){
-        return false;
-      }
-
-      Point a, b, c;
-      for(int i = 0; i < NUMPOINTS - param.EPTS - param.FPTS; i++){
-        a = POINTS[i];
-        b = POINTS[i + param.EPTS];
-        c = POINTS[i + param.EPTS + param.FPTS];
-        double area = calculateTriangleArea(a, b, c);
-        if(area > param.AREA1){
-          return true;
-        }
-      }
+    public boolean LIC10(){
       return false;
     }
 
-    private boolean LIC11(){
+    public boolean LIC11(){
       return false;
     }
 
-    private boolean LIC12(){
+    public boolean LIC12(){
       return false;
     }
 
-    private boolean LIC13(){
+    public boolean LIC13(){
       return false;
     }
 
-    //Return true if there exists three points seperated by EPTS and FPTS respictively
-    //which together create a traingle with an area larger than AREA1 and there also three points seperated
-    //by EPTS and FPTS respictively which together create a traingle with an area smaller than AREA2
-    private boolean LIC14(){
-      if(NUMPOINTS < 5){
-        return false;
-      }
-      if(param.EPTS < 1 || param.FPTS < 1 || (param.EPTS + param.FPTS > NUMPOINTS-3) || param.AREA2 < 0){
-        return false;
-      }
-
-      boolean largerExists = false, smallerExists = false;
-      Point a, b, c;
-      for(int i = 0; i < NUMPOINTS - param.EPTS - param.FPTS; i++){
-        a = POINTS[i];
-        b = POINTS[i + param.EPTS];
-        c = POINTS[i + param.EPTS + param.FPTS];
-        double area = calculateTriangleArea(a, b, c);
-        if(area > param.AREA1){
-          largerExists = true;
-        } else if (area < param.AREA2){
-          smallerExists = true;
-        }
-      }
-
-      if(largerExists && smallerExists){
-        return true;
-      }
+    public boolean LIC14(){
       return false;
     }
 
@@ -189,5 +116,35 @@ public class CMV{
     //Calcultaes the distance from point p to the line passing through startPoint and endPoint
     private double distanceToLine(Point startPoint, Point endPoint, Point p){
       return (Math.abs(p.getX() * (endPoint.getY() - startPoint.getY()) - p.getY() * (endPoint.getX() - startPoint.getX()) + endPoint.getX() * startPoint.getY() - endPoint.getY() * startPoint.getX()))/distancePoint(endPoint, startPoint);
+    }
+
+    //Utilitary function for LIC0 and LIC8
+    //Compute the Euclidean distance between Points a and b
+    private double dist(Point a, Point b){
+      return Math.sqrt(Math.pow(a.getX()-b.getX(),2)+Math.pow(a.getY()-b.getY(),2));
+    }
+
+    //Utilitary function for LIC4. Finds in which quadrant
+    //the Point a is. Returns 1, 2, 3, 4 or 0 if none found.
+    private int getQuad(Point a){
+      double x = a.getX();
+      double y = a.getY();
+      if(x >= 0 && y >= 0) return 1; //both axis included plus (0,0)
+      if(x >= 0 && y < 0) return 2; //x axis included without (0,0)
+      if(x < 0 && y <= 0) return 3; //y axis included without (0,0)
+      if(x < 0 && y > 0) return 4; //no axis included
+      else return 0;
+    }
+
+    //Utilitary function for LIC8.
+    //Computes the radius of the circumcircle of the triangle formed by a,b and c,
+    //i.e. the radius of the circle that passes through a, b and c.
+    //The formula comes from https://www.mathopenref.com/trianglecircumcircle.html
+    private double getRadiusCircle(Point a, Point b, Point c){
+      double l1 = dist(a,b);
+      double l2 = dist(a,c);
+      double l3 = dist(b,c);
+      double r = l1 * l2 * l3 / Math.sqrt((l1+l2+l3)*(l2+l3-l1)*(l3+l1-l2)*(l1+l2-l3));
+      return r;
     }
 }
