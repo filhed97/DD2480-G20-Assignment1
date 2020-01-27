@@ -43,7 +43,7 @@ public class CMV{
     }
 
     public boolean LIC1(){
-  		for(int i = 0; i<=NUMPOINTS-2; i++){
+  		for(int i = 0; i<NUMPOINTS-2; i++){
   			Point a,b,c,centre;
   			a = POINTS[i];
   			b = POINTS[i+1];
@@ -77,7 +77,8 @@ public class CMV{
 
 
     public boolean LIC5(){
-		for(int i = 0; i<=NUMPOINTS-1; i++){
+		for(int i = 0; i<NUMPOINTS-1; i++){
+      System.out.println(POINTS[i+1].getX()+" - "+POINTS[i].getX());
 			if(POINTS[i+1].getX()-POINTS[i].getX() < 0)
 				return true;
 		}
@@ -97,7 +98,7 @@ public class CMV{
     }
 
     public boolean LIC9(){
-		for(int i = 0; i<=NUMPOINTS-(param.CPTS+param.DPTS+2); i++){
+		for(int i = 0; i<NUMPOINTS-(param.CPTS+param.DPTS+2); i++){
 			Point a,b,c;
 			a = POINTS[i];
 			b = POINTS[i+param.CPTS+1];
@@ -123,7 +124,7 @@ public class CMV{
     public boolean LIC13(){
 		boolean condition1 = false;
 		boolean condition2 = false;
-		for(int i = 0; i<=NUMPOINTS-(param.APTS+param.BPTS+2); i++){
+		for(int i = 0; i<NUMPOINTS-(param.APTS+param.BPTS+2); i++){
 			Point a,b,c,centre;
 			a = POINTS[i];
 			b = POINTS[i+param.APTS+1];
@@ -206,8 +207,4 @@ public class CMV{
       return r;
     }
 
-	//Calculates the angle between the lines a-b and b-c
-    private double calculateAngle(Point a, Point b, Point c){
-      return Math.atan2(c.getY() - b.getY(), c.getX() - b.getX()) - Math.atan2(a.getY() - b.getY(), c.getX() - c.getY());
-    }
 }

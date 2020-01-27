@@ -93,6 +93,7 @@ public class Tests {
       for (int i=0; i<15; i++) {
         assertThat(effective[i], equalTo(expected[i]));
       }
+    }
 
 
     //Tests that the FUV is filled accordingly to the PUM and the PUV:
@@ -126,7 +127,6 @@ public class Tests {
       main.fillFUV();
       assertThat(main.FUV[0], equalTo(true));
       assertThat(main.FUV[1], equalTo(false));
-      System.out.println("PUV[2] = " + main.PUV[2] +", PUM[2,14] = "+main.PUM[2][14]+", FUV[2] = "+main.FUV[2]);
       assertThat(main.FUV[2], equalTo(false));
       for (int i = 3; i < 15; i++ ) {
         assertThat(main.FUV[i], equalTo(true));
@@ -192,15 +192,15 @@ public class Tests {
 
       Point[] data1 = {a,b};
       CMV cmv1 = new CMV(2, data1, param);
-      assertThat(cmv1.DECIDE()[5], equalTo(true));//b.X - a.X = -1 < 0
+      assertThat(cmv1.LIC5(), equalTo(true));//b.X - a.X = -1 < 0
 
       Point[] data2 = {a,a,a,a,a,a};
       CMV cmv2 =  new CMV(6, data1,param);
-      assertThat(cmv2.DECIDE()[5], equalTo(false));// a.X - a.X not strictly less than 0
+      assertThat(cmv2.LIC5(), equalTo(false));// a.X - a.X not strictly less than 0
 
       Point[] data3 = {b,a};
       CMV cmv3 =  new CMV(2, data1,param);
-      assertThat(cmv3.DECIDE()[5], equalTo(false));//a.X - b.X = 1 > 0
+      assertThat(cmv3.LIC5(), equalTo(false));//a.X - b.X = 1 > 0
     }
 
     //Assuming that the angle of 3 points is in rad in [0, PI].
@@ -226,32 +226,32 @@ public class Tests {
       Point[] data1 = {a, skip, b, skip, c}; //abc is a PI/2 rad angle
       CMV cmv1 = new CMV(5, data1, param);
       //Should be true for any angle except PI
-      assertThat(cmv1.DECIDE()[9], equalTo(true));
+      assertThat(cmv1.LIC9(), equalTo(true));
 
       Point d = new Point(2,0);
       Point[] data2 = {a, skip, b, skip, d}; //abd is a PI rad angle
       CMV cmv2 = new CMV(5, data2, param);
       //Should be false since angle should be different that PI
-      assertThat(cmv2.DECIDE()[9], equalTo(false));
+      assertThat(cmv2.LIC9(), equalTo(false));
 
       param.EPSILON = Math.PI;
       CMV cmv3 = new CMV(5, data1, param);//abc is a PI/2 rad angle
       //Should be true for any angle except 0
-      assertThat(cmv3.DECIDE()[9], equalTo(true));
+      assertThat(cmv3.LIC9(), equalTo(true));
 
       Point[] data3 = {a, skip, b, skip, a}; //aba is a 0 rad angle
       CMV cmv4 = new CMV(5, data3, param);
       //Should be false for angle 0
-      assertThat(cmv4.DECIDE()[9], equalTo(false));
+      assertThat(cmv4.LIC9(), equalTo(false));
 
       CMV cmv5 = new CMV(4, data1, param);
       //false since NUMPOINTS has to be greater than 4
-      assertThat(cmv5.DECIDE()[9], equalTo(false));
+      assertThat(cmv5.LIC9(), equalTo(false));
 
       Point[] data4 = {a, skip, a, skip, b}; //aab is undefined
       CMV cmv6 = new CMV(5, data4, param);
       //false since undefined angle
-      assertThat(cmv6.DECIDE()[9], equalTo(false));
+      assertThat(cmv6.LIC9(), equalTo(false));
     }
 
     //Tests true iff exists 3 consecutive points separated by APTS and BPTS
@@ -276,32 +276,32 @@ public class Tests {
 
       CMV cmv1 = new CMV(5, data1, param);
       //abc is not contained RADIUS1 but is contained in RADIUS2
-      assertThat(cmv1.DECIDE()[13], equalTo(true));
+      assertThat(cmv1.LIC13(), equalTo(true));
 
       Point d = new Point(4,0);
       //All a,b and c on x axis
       Point[] data2 = {a, skip, b, skip, d};
       CMV cmv2 = new CMV(5, data2, param);
       //True since a,b,d are exactly on circle of RADIUS2
-      assertThat(cmv2.DECIDE()[13], equalTo(true));
+      assertThat(cmv2.LIC13(), equalTo(true));
 
       //Check didn't switch radius1 and radius2
       param.RADIUS1 = 2;
       param.RADIUS2 = 1;
       CMV cmv3 = new CMV(5, data1, param);
       //a,b,c can be contained in radius1 but cannot in radius2
-      assertThat(cmv3.DECIDE()[13], equalTo(false)); //case both conditions are false
+      assertThat(cmv3.LIC13(), equalTo(false)); //case both conditions are false
 
       param.RADIUS1 = 2;
       param.RADIUS2 = 2;
       CMV cmv4 = new CMV(4, data1, param);
       //a,b,c can be contained in radius1 and in radius2
-      assertThat(cmv4.DECIDE()[13], equalTo(false)); //case radius1 is false
+      assertThat(cmv4.LIC13(), equalTo(false)); //case radius1 is false
 
       param.RADIUS1 = 1;
       param.RADIUS2 = 1;
       CMV cmv5 = new CMV(5, data1, param);
       //a,b,c can be contained in either radius1 nor radius2
-      assertThat(cmv5.DECIDE()[13], equalTo(false)); //case radius2 false
+      assertThat(cmv5.LIC13(), equalTo(false)); //case radius2 false
     }
 }
