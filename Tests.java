@@ -72,34 +72,6 @@ public class Tests {
     //the i-th entry of the CMV is equal to the i-th LIC's output
     //i.e. CMV[i] = LICi();
 
-    //Tests true if there exists two consecutive points 
-    //a distance larger than LENGTH away from each other
-    @Test 
-    public void LIC0(){
-        param.Length = 3;
-        Point a, b;
-        
-        a = new Point(0, 0);
-        b = new Point(2, 2);
-
-        Point[] data1 = {a,b}; // a and b are too close
-        CMV cmv1 = new CMV(2, data1, param);
-        //data1 doesn't satisfy LIC0 thus should not be true
-        assertThat(cmv1.DECIDE()[0], is(not(equalTo(true)))); //lots of syntatic sugar
-
-        Point c = new Point(4, 0);
-        Point[] data2 = {a,c,b}; // a and c are further than LENGTH apart
-        CMV cmv2 = new CMV(3, data2, param);
-        //data2 satisfies LIC0 thus should be true
-        assertThat(cmv2.DECIDE()[0], is(equalTo(true))); //lots of syntatic sugar
-
-        c.setLocation(3, 0);
-        Point[] data3 = {a,c,b}; // a and c are exactly Length apart
-        CMV cmv3 = new CMV(3, data3, param);
-        //data3 doesn't satisfy LIC0 thus should not be true
-        assertThat(cmv3.DECIDE()[0], is(not(equalTo(true)))); //lots of syntatic sugar
-    }
-
     //Tests true iff there exists 3 consecutive points that together form
     // a triangle with area larger the AREA1
     @Test 
@@ -115,7 +87,7 @@ public class Tests {
         //data1 doesn't satisfy LIC3 thus should not be true
         assertThat(cmv1.DECIDE()[3], is(not(equalTo(true))));
 
-        d = new Point(6, 3);
+        Point d = new Point(6, 3);
         Point[] data2 = {a, b, c, d}; // b, c, d creates triangle with area larger than AREA1
         CMV cmv2 = new CMV(4, data2, param);
         //data2 satisfies LIC3 thus should be true
