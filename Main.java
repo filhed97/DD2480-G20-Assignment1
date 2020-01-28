@@ -1,4 +1,4 @@
-import java.awt.Point;
+import java.awt.geom.Point2D;
 
 public class Main{
 
@@ -9,7 +9,7 @@ public class Main{
     }
 
     public int NUMPOINTS;
-    public Point[] POINTS;
+    public Point2D.Double[] POINTS;
     public Parameters PARAMETERS;
     public LogicalOperators[][] LCM = new LogicalOperators[15][15];
     public boolean[] PUV = new boolean[15];
@@ -78,5 +78,4 @@ public class Main{
         }
         LAUNCH = true;
     }
-
 }
