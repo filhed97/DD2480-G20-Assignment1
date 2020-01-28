@@ -29,12 +29,13 @@ public class Tests {
     //Time: x.xxx
     //Ok or failure
 
-    @Test 
-    public void Main1(){
+    @Test
+    public void MainTemplate(){
         Main main = new Main();
         main.NUMPOINTS = 5;
         main.POINTS = new Point[]{new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0)};
         main.PARAMETERS = new Parameters(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19);
+
         main.LCM = new Main.LogicalOperators[][]{ {Main.LogicalOperators.NOTUSED, Main.LogicalOperators.ANDD, Main.LogicalOperators.ANDD, Main.LogicalOperators.ANDD, Main.LogicalOperators.ANDD, Main.LogicalOperators.ANDD, Main.LogicalOperators.ANDD, Main.LogicalOperators.ANDD, Main.LogicalOperators.ANDD, Main.LogicalOperators.ANDD, Main.LogicalOperators.ANDD, Main.LogicalOperators.ANDD, Main.LogicalOperators.ANDD, Main.LogicalOperators.ANDD, Main.LogicalOperators.ANDD},
                                                 {Main.LogicalOperators.ANDD, Main.LogicalOperators.NOTUSED, Main.LogicalOperators.ANDD, Main.LogicalOperators.ANDD, Main.LogicalOperators.ANDD, Main.LogicalOperators.ANDD, Main.LogicalOperators.ANDD, Main.LogicalOperators.ANDD, Main.LogicalOperators.ANDD, Main.LogicalOperators.ANDD, Main.LogicalOperators.ANDD, Main.LogicalOperators.ANDD, Main.LogicalOperators.ANDD, Main.LogicalOperators.ANDD, Main.LogicalOperators.ANDD},
                                                 {Main.LogicalOperators.ANDD, Main.LogicalOperators.ANDD, Main.LogicalOperators.NOTUSED, Main.LogicalOperators.ANDD, Main.LogicalOperators.ANDD, Main.LogicalOperators.ANDD, Main.LogicalOperators.ANDD, Main.LogicalOperators.ANDD, Main.LogicalOperators.ANDD, Main.LogicalOperators.ANDD, Main.LogicalOperators.ANDD, Main.LogicalOperators.ANDD, Main.LogicalOperators.ANDD, Main.LogicalOperators.ANDD, Main.LogicalOperators.ANDD},
@@ -54,7 +55,87 @@ public class Tests {
 
         main.getLaunch();
 
+        //assertThat(main.LAUNCH, equalTo(true));
+    }
+
+    @Test
+    public void Main1(){
+        Main main = new Main();
+        main.NUMPOINTS = 5;
+        main.POINTS = new Point[]{new Point(0, 0), new Point(100, 5), new Point(-1, 5), new Point(14.2, 0), new Point(0, -5)};
+        main.PARAMETERS = new Parameters(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19);
+
+        CMV mockCMV = mock(CMV.class);
+        when(MockCMV.LIC0()).thenReturn(false);
+        when(MockCMV.LIC1()).thenReturn(true);
+        when(MockCMV.LIC2()).thenReturn(true);
+        when(MockCMV.LIC3()).thenReturn(false);
+        when(MockCMV.LIC4()).thenReturn(true);
+        when(MockCMV.LIC5()).thenReturn(true);
+        when(MockCMV.LIC6()).thenReturn(true);
+        when(MockCMV.LIC7()).thenReturn(true);
+        when(MockCMV.LIC8()).thenReturn(false);
+        when(MockCMV.LIC9()).thenReturn(true);
+        when(MockCMV.LIC10()).thenReturn(true);
+        when(MockCMV.LIC11()).thenReturn(true);
+        when(MockCMV.LIC12()).thenReturn(false);
+        when(MockCMV.LIC13()).thenReturn(true);
+        when(MockCMV.LIC14()).thenReturn(true);
+
+        main.LCM = new Main.LogicalOperators[15][15];
+        for (int i = 0; i < 15; i++) {
+          for (int j = 0; j < 15; j++) {
+            if(i == j) main.LCM[i] = Main.LogicalOperators.NOTUSED;
+            main.LCM[i] = Main.LogicalOperators.ORR;
+          }
+        }
+        main.LCM[0][1] = Main.LogicalOperators.ANDD;
+        main.LCM[1][0] = Main.LogicalOperators.ANDD;
+
+        main.PUV = new boolean[15];
+        Arrays.fill(main.PUV, true);
+        main.PUV[0] = false;
+
+        main.getLaunch();
         assertThat(main.LAUNCH, equalTo(true));
+    }
+
+    //Test using LIC 0, 3, 5 and 11
+    @Test
+    public void Main2(){
+      Main main = new Main();
+      main.NUMPOINTS = 4;
+      main.POINTS = new Point[]{new Point(0, 0), new Point(1, 0), new Point(1, 1), new Point(0, 1)};
+
+      //double LENGTH1,double RADIUS1,double EPSILON,double AREA1,int QPTS,
+      //int QUADS,double DIST,int NPTS,int KPTS,int APTS,int BPTS,int CPTS, int DPTS,
+      //int EPTS, int FPTS, int GPTS,double LENGTH2,double RADIUS2,double AREA2
+      main.PARAMETERS = new Parameters(2,0,0.1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0);
+      main.LCM = new Main.LogicalOperators[15][15];
+      for (int i = 0; i<15; i++) {
+        for (int j = 0; j<15; j++) {
+          //Expected output
+          //LIC0 : False
+          //LIC3 : True
+          //LIC5 : True
+          //LIC11 : True
+          if(i == 0 && j== 3 || i==3 && j==0) main.LCM[i][j] = Main.LogicalOperators.ANDD; // means PUM entry will be false
+          else if(i == 0 && j == 5 && i == 5 && j == 0) main.LCM[i][j] = Main.LogicalOperators.ORR;
+          else if(i == 0 && j == 11 && i == 11 && j == 0) main.LCM[i][j] = Main.LogicalOperators.ORR;
+          else if(i == 3 && j == 5 && i == 5 && j == 3) main.LCM[i][j] = Main.LogicalOperators.ANDD;
+          else if(i == 3 && j == 11 && i == 11 && j == 3) main.LCM[i][j] = Main.LogicalOperators.ANDD;
+          else if(i == 5 && j == 11 && i == 11 && j == 5) main.LCM[i][j] = Main.LogicalOperators.ANDD;
+          else main.LCM[i][j] = Main.LogicalOperators.NOTUSED;
+        }
+      }
+      main.PUV = new boolean[15];
+      Arrays.fill(main.PUV, false);
+      main.getLaunch();
+      assertThat(main.LAUNCH, equalTo(true));
+
+      Arrays.fill(main.PUV, true);
+      main.getLaunch();
+      assertThat(main.LAUNCH, equalTo(false));
     }
 
     @Test
@@ -88,10 +169,12 @@ public class Tests {
     //Initialize parameters
     //Always intialize the relevant param values needed in your tests
     private Parameters param = new Parameters(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
-    
+
     //Object containing the input parameters, such as the PUV or the PUM,
     //and the methods that compute their values.
     private Main main = new Main();
+
+
 
     @Test
     public void DECIDE() {
@@ -120,6 +203,51 @@ public class Tests {
             assertThat(effective[i], equalTo(expected[i]));
         }
     }
+
+
+        @Test
+        public void fillPUM(){
+
+          //The CMV is filled with true except first value
+          Arrays.fill(main.cmvResult, true);
+          main.cmvResult[0] = false;
+          main.cmvResult[14] = false;
+
+          //The LCM is filled with NOTUSED except in certain position in which
+          //the logical operators ANDD and ORR are tested
+          for (int i = 0; i<15; i++) {
+            Arrays.fill(main.LCM[i], Main.LogicalOperators.NOTUSED);
+          }
+          main.LCM[0][1] = Main.LogicalOperators.ANDD;
+          main.LCM[1][2] = Main.LogicalOperators.ANDD;
+          main.LCM[1][0] = Main.LogicalOperators.ORR;
+          main.LCM[0][14] = Main.LogicalOperators.ORR;
+
+          //Expected outcomes:
+          //  PUM[0][1] = false since cmv[0] is false
+          //  PUM[1][2] = true since cmv[1] AND cmv[2] are true
+          //  PUM[1][0] = true since cmv[1] OR cmv[0] is true
+          //  PUM[0][14] = false since cmv[0] OR cmv[14] is false
+          //  PUM[0][0] = true since LCM[0][0] is NOTUSED
+          //  Same for rest of PUM
+          main.fillPUM();
+
+          //TEST ANDD
+          assertThat(main.PUM[0][1], equalTo(false));
+          assertThat(main.PUM[1][2], equalTo(true));
+
+          //TEST ORR
+          assertThat(main.PUM[1][0], equalTo(true));
+          assertThat(main.PUM[0][14], equalTo(false));
+
+          //Test NOTUSED
+          assertThat(main.PUM[0][0], equalTo(true));
+          for(int i = 2; i < 15; i++){
+            for(int j = 0; j < 15; j++){
+                assertThat(main.PUM[i][j], equalTo(true));
+            }
+          }
+        }
 
     //Tests that the FUV is filled accordingly to the PUM and the PUV:
     //FUV[i] true iff PUV[i] is false or PUM[i,j] is true for all j.
@@ -359,47 +487,4 @@ public class Tests {
       assertThat(cmv5.LIC13(), equalTo(false)); //case radius2 false
     }
 
-    @Test
-    public void fillPUM(){
-
-      //The CMV is filled with true except first value
-      Arrays.fill(main.cmvResult, true);
-      main.cmvResult[0] = false;
-      main.cmvResult[14] = false;
-
-      //The LCM is filled with NOTUSED except in certain position in which
-      //the logical operators ANDD and ORR are tested
-      for (int i = 0; i<15; i++) {
-        Arrays.fill(main.LCM[i], Main.LogicalOperators.NOTUSED);
-      }
-      main.LCM[0][1] = Main.LogicalOperators.ANDD;
-      main.LCM[1][2] = Main.LogicalOperators.ANDD;
-      main.LCM[1][0] = Main.LogicalOperators.ORR;
-      main.LCM[0][14] = Main.LogicalOperators.ORR;
-
-      //Expected outcomes:
-      //  PUM[0][1] = false since cmv[0] is false
-      //  PUM[1][2] = true since cmv[1] AND cmv[2] are true
-      //  PUM[1][0] = true since cmv[1] OR cmv[0] is true
-      //  PUM[0][14] = false since cmv[0] OR cmv[14] is false
-      //  PUM[0][0] = true since LCM[0][0] is NOTUSED
-      //  Same for rest of PUM
-      main.fillPUM();
-
-      //TEST ANDD
-      assertThat(main.PUM[0][1], equalTo(false));
-      assertThat(main.PUM[1][2], equalTo(true));
-
-      //TEST ORR
-      assertThat(main.PUM[1][0], equalTo(true));
-      assertThat(main.PUM[0][14], equalTo(false));
-
-      //Test NOTUSED
-      assertThat(main.PUM[0][0], equalTo(true));
-      for(int i = 2; i < 15; i++){
-        for(int j = 0; j < 15; j++){
-            assertThat(main.PUM[i][j], equalTo(true));
-        }
-      }
-    }
 }
