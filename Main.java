@@ -2,7 +2,7 @@ import java.awt.Point;
 
 public class Main{
 
-    enum LogicalOperators {
+    public enum LogicalOperators {
   	   NOTUSED,
   	   ORR,
  	     ANDD
@@ -21,6 +21,34 @@ public class Main{
     public static void main(String[] args){
 
 
+    }
+
+    /**
+     * Fill in the Preliminary Unlocking Matrix.
+     */
+    public void fillPUM() {
+        for (int i = 0; i < 15; i++) {
+            for (int j = 0; j < 15; j++) {
+
+                if (LCM[i][j] == LogicalOperators.NOTUSED) {
+                    PUM[i][j] = true;
+
+                } else if (LCM[i][j] == LogicalOperators.ORR) {
+                    if (cmv[i] || cmv[j]) {
+                        PUM[i][j] = true;
+                    } else {
+                        PUM[i][j] = false;
+                    }
+
+                } else if (LCM[i][j] == LogicalOperators.ANDD) {
+                    if (cmv[i] && cmv[j]) {
+                        PUM[i][j] = true;
+                    } else {
+                        PUM[i][j] = false;
+                    }
+                }
+            }
+        }
     }
 
     //Fills the FUV by reading the PUV and PUM
