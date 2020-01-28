@@ -68,7 +68,23 @@ public class CMV{
     }
 
     public boolean LIC3(){
-      return false;
+		if (NUMPOINTS < 3) {
+            return false;
+        }
+
+        Point2D.Double a, b, c;
+        for (int i = 0; i < NUMPOINTS - 2; i++) {
+            a = POINTS[i];
+            b = POINTS[i + 1];
+            c = POINTS[i + 2];
+
+            double triangleArea = calculateTriangleArea(a, b, c);
+
+            if (triangleArea > param.AREA1) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean LIC4(){
@@ -89,7 +105,22 @@ public class CMV{
     }
 
     public boolean LIC7(){
-      return false;
+		if (NUMPOINTS < 3) {
+            return false;
+        }
+
+        Point2D.Double a, b;
+        for (int i = 0; i < NUMPOINTS - 1 - param.KPTS; i++) {
+            
+            a = POINTS[i];
+            b = POINTS[i + param.KPTS + 1];
+            double distance = distancePoint(a, b);
+
+            if (distance > param.LENGTH1) {
+				return true;
+            }            
+        }
+        return false;
     }
 
     public boolean LIC8(){
@@ -115,7 +146,20 @@ public class CMV{
     }
 
     public boolean LIC11(){
-      return false;
+		if (NUMPOINTS < 3) {
+            return false;
+        }
+
+        Point2D.Double a, b;
+        for (int i = 0; i < NUMPOINTS - 1 - param.GPTS; i++) {
+				a = POINTS[i];
+				b = POINTS[i + param.GPTS + 1];
+
+				if (b.getX() - a.getX() < 0) {
+					return true;
+				}     
+        }
+        return false;
     }
 
     public boolean LIC12(){
