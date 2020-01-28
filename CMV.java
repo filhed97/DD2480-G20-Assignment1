@@ -63,7 +63,33 @@ public class CMV{
         return false;
     }
 
+    //Returns true if there exists three consecutive points which form an angle 
+    //larger than PI + Epsilon or smaller than PI - epsilon
     public boolean LIC2(){
+		  if(param.EPSILON < 0 || param.EPSILON > Math.PI){
+        return false;
+      }
+
+
+      Point2D.Double a, b, c;
+      for(int i = 0; i < NUMPOINTS - 2; i++){
+        a = POINTS[i];
+        b = POINTS[i + 1];
+        c = POINTS[i + 2];
+        if(a.equals(b) || b.equals(c)){
+          continue;
+        }
+        double angle = calculateAngle(a, b, c);
+        if(angle == Math.PI){
+          return false;
+        }
+        if(angle < 0){
+          angle += 2 * Math.PI;
+        }
+        if(angle > (Math.PI + param.EPSILON) || angle < (Math.PI - param.EPSILON)){
+          return true;
+        }
+      }
       return false;
     }
 
@@ -100,7 +126,38 @@ public class CMV{
         return false;
     }
 
+    //Returns true if there exists a set of NPTS consecutive points where one of the points lies a distance larger
+    //then DIST away from the line passing through the first and last point of the set
     public boolean LIC6(){
+		  if(NUMPOINTS < 3){
+        return false;
+      }
+      if(param.DIST < 0 || param.NPTS < 3 || param.NPTS > NUMPOINTS){
+        return false;
+      }
+
+      Point2D.Double start, end;
+
+      for(int i = 0; i < NUMPOINTS - param.NPTS + 1; i++){
+        start = POINTS[i];
+        end = POINTS[i + param.NPTS - 1];
+
+        if(start.equals(end)){
+          for(int j = i + 1; j < i + param.NPTS - 1; j++){
+            double dist = distancePoint(POINTS[j], start);
+            if(dist > param.DIST){
+              return true;
+            }
+          }
+        } else {
+          for(int j = i + 1; j < i + param.NPTS - 1; j++){
+            double dist = distanceToLine(start, end, POINTS[j]);
+            if(dist > param.DIST){
+              return true;
+            }
+          }
+        }
+      }
       return false;
     }
 
@@ -142,6 +199,23 @@ public class CMV{
     }
 
     public boolean LIC10(){
+		if(NUMPOINTS < 5){
+        return false;
+      }
+      if(param.EPTS < 1 || param.FPTS < 1 || (param.EPTS + param.FPTS > NUMPOINTS-3)){
+        return false;
+      }
+
+      Point2D.Double a, b, c;
+      for(int i = 0; i < NUMPOINTS - param.EPTS - param.FPTS; i++){
+        a = POINTS[i];
+        b = POINTS[i + param.EPTS];
+        c = POINTS[i + param.EPTS + param.FPTS];
+        double area = calculateTriangleArea(a, b, c);
+        if(area > param.AREA1){
+          return true;
+        }
+      }
       return false;
     }
 
@@ -198,6 +272,30 @@ public class CMV{
   }
 
     public boolean LIC14(){
+		if(NUMPOINTS < 5){
+        return false;
+      }
+      if(param.EPTS < 1 || param.FPTS < 1 || (param.EPTS + param.FPTS > NUMPOINTS-3) || param.AREA2 < 0){
+        return false;
+      }
+
+      boolean largerExists = false, smallerExists = false;
+      Point2D.Double a, b, c;
+      for(int i = 0; i < NUMPOINTS - param.EPTS - param.FPTS; i++){
+        a = POINTS[i];
+        b = POINTS[i + param.EPTS];
+        c = POINTS[i + param.EPTS + param.FPTS];
+        double area = calculateTriangleArea(a, b, c);
+        if(area > param.AREA1){
+          largerExists = true;
+        } else if (area < param.AREA2){
+          smallerExists = true;
+        }
+      }
+
+      if(largerExists && smallerExists){
+        return true;
+      }
       return false;
     }
 
@@ -206,10 +304,9 @@ public class CMV{
       return Math.abs((a.getX() * (b.getY() - c.getY()) + b.getX() * (c.getY() - a.getY()) + c.getX()*(a.getY() - b.getY()))/2);
     }
 
-    //Calculates the angle between the lines a-b and b-c
     //This method doesn't work for if all points are on the X-axis
     public double calculateAngle(Point2D.Double a, Point2D.Double b, Point2D.Double c){
-      return Math.atan2(c.getY() - b.getY(), c.getX() - b.getX()) - Math.atan2(a.getY() - b.getY(), c.getX() - c.getY());
+      return Math.atan2(c.getY() - b.getY(), c.getX() - b.getX()) - Math.atan2(a.getY() - b.getY(), a.getX() - c.getY());
     }
 
     //Calculates the distance between two points
