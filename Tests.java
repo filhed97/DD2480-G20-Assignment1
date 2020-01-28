@@ -125,6 +125,41 @@ public class Tests {
       main.getLaunch(false);
       assertThat(main.LAUNCH, equalTo(false));
     }
+	
+	@Test
+    public void Main3(){
+        Main main = new Main();
+		main.NUMPOINTS = 27;
+		main.POINTS = new Point2D.Double[]{new Point2D.Double(0, 0), new Point2D.Double(1, 0), new Point2D.Double(0, 1), new Point2D.Double(2, 1),
+		new Point2D.Double(1, 1),new Point2D.Double(1,2),new Point2D.Double(0,0),new Point2D.Double(4,0),new Point2D.Double(0,4),new Point2D.Double(0,0),
+		new Point2D.Double(1,3),new Point2D.Double(3,0),new Point2D.Double(0,0),new Point2D.Double(-2,0),new Point2D.Double(0,0),new Point2D.Double(0,0),
+		new Point2D.Double(1,0),new Point2D.Double(0,0),new Point2D.Double(0,1),new Point2D.Double(0,4),new Point2D.Double(0,0),new Point2D.Double(4,0),
+		new Point2D.Double(0,0),new Point2D.Double(-5,0),new Point2D.Double(4,0),new Point2D.Double(-5,0),new Point2D.Double(1,0)};
+
+		//double LENGTH1,double RADIUS1,double EPSILON,double AREA1,int QPTS,
+		//int QUADS,double DIST,int NPTS,int KPTS,int APTS,int BPTS,int CPTS, int DPTS,
+		//int EPTS, int FPTS, int GPTS,double LENGTH2,double RADIUS2,double AREA2
+			main.PARAMETERS = new Parameters(3,1,0.8,1,0,0,2,3,1,1,1,1,1,1,1,1,0,4,100);
+			main.LCM = new Main.LogicalOperators[15][15];
+			for (int i = 0; i<15; i++) {
+				for (int j = 0; j<15; j++) {
+					//Expected output
+					//LIC #1,2,3,5,6,7,9,10,11,13,14 should be true, rest are irrelevant due to PUV.
+					if(i == j) 
+						main.LCM[i][i] = Main.LogicalOperators.NOTUSED;
+			
+					main.LCM[i][j] = Main.LogicalOperators.ORR;
+				}
+		  }
+		  main.PUV = new boolean[15];
+		  Arrays.fill(main.PUV, true);
+		  main.PUV[0]=false;
+		  main.PUV[4]=false;
+		  main.PUV[8]=false;
+		  main.PUV[12]=false;
+		  main.getLaunch(false);
+		  assertThat(main.LAUNCH, equalTo(true));
+    }
 
     @Test
     public void WhatDoesTheTestAssert() {
