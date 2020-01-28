@@ -103,4 +103,48 @@ public class Tests {
 
 
     }
+
+    @Test
+    public void fillPUM(){
+
+      //The CMV is filled with true except first value
+      Arrays.fill(main.cmv, true);
+      main.cmv[0] = false;
+      main.cmv[14] = false;
+
+      //The LCM is filled with NOTUSED except in certain position in which
+      //the logical operators ANDD and ORR are tested
+      for (int i = 0; i<15; i++) {
+        Arrays.fill(main.LCM[i], Main.LogicalOperators.NOTUSED);
+      }
+      main.LCM[0][1] = Main.LogicalOperators.ANDD;
+      main.LCM[1][2] = Main.LogicalOperators.ANDD;
+      main.LCM[1][0] = Main.LogicalOperators.ORR;
+      main.LCM[0][14] = Main.LogicalOperators.ORR;
+
+      //Expected outcomes:
+      //  PUM[0][1] = false since cmv[0] is false
+      //  PUM[1][2] = true since cmv[1] AND cmv[2] are true
+      //  PUM[1][0] = true since cmv[1] OR cmv[0] is true
+      //  PUM[0][14] = false since cmv[0] OR cmv[14] is false
+      //  PUM[0][0] = true since LCM[0][0] is NOTUSED
+      //  Same for rest of PUM
+      main.fillPUM();
+
+      //TEST ANDD
+      assertThat(main.PUM[0][1], equalTo(false));
+      assertThat(main.PUM[1][2], equalTo(true));
+
+      //TEST ORR
+      assertThat(main.PUM[1][0], equalTo(true));
+      assertThat(main.PUM[0][14], equalTo(false));
+
+      //Test NOTUSED
+      assertThat(main.PUM[0][0], equalTo(true));
+      for(int i = 2; i < 15; i++){
+        for(int j = 0; j < 15; j++){
+            assertThat(main.PUM[i][j], equalTo(true));
+        }
+      }
+    }
 }

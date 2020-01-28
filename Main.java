@@ -2,7 +2,7 @@ import java.awt.Point;
 
 public class Main{
 
-    enum LogicalOperators {
+    public enum LogicalOperators {
   	   NOTUSED,
   	   ORR,
  	     ANDD
@@ -31,7 +31,7 @@ public class Main{
             for (int j = 0; j < 15; j++) {
 
                 if (LCM[i][j] == LogicalOperators.NOTUSED) {
-                    PUM[i][j] = true
+                    PUM[i][j] = true;
 
                 } else if (LCM[i][j] == LogicalOperators.ORR) {
                     if (cmv[i] || cmv[j]) {
