@@ -63,12 +63,10 @@ public class CMV{
         return false;
     }
 
+    //Returns true if there exists three consecutive points which form an angle 
+    //larger than PI + Epsilon or smaller than PI - epsilon
     public boolean LIC2(){
-      System.out.println("POINTS 1 = " + POINTS[0]);
-      System.out.println("POINTS 2 = " + POINTS[1]);
-      System.out.println("POINTS 3 = " + POINTS[2]);
-      System.out.println("eplsilon " + param.EPSILON);
-		if(param.EPSILON < 0 || param.EPSILON > Math.PI){
+		  if(param.EPSILON < 0 || param.EPSILON > Math.PI){
         return false;
       }
 
@@ -78,11 +76,16 @@ public class CMV{
         a = POINTS[i];
         b = POINTS[i + 1];
         c = POINTS[i + 2];
+        if(a.equals(b) || b.equals(c)){
+          continue;
+        }
         double angle = calculateAngle(a, b, c);
+        if(angle == Math.PI){
+          return false;
+        }
         if(angle < 0){
           angle += 2 * Math.PI;
         }
-        System.out.println(angle);
         if(angle > (Math.PI + param.EPSILON) || angle < (Math.PI - param.EPSILON)){
           return true;
         }
@@ -107,8 +110,10 @@ public class CMV{
         return false;
     }
 
+    //Returns true if there exists a set of NPTS consecutive points where one of the points lies a distance larger
+    //then DIST away from the line passing through the first and last point of the set
     public boolean LIC6(){
-		if(NUMPOINTS < 3){
+		  if(NUMPOINTS < 3){
         return false;
       }
       if(param.DIST < 0 || param.NPTS < 3 || param.NPTS > NUMPOINTS){
@@ -116,9 +121,11 @@ public class CMV{
       }
 
       Point2D.Double start, end;
-      for(int i = 0; i < NUMPOINTS - param.NPTS; i++){
+
+      for(int i = 0; i < NUMPOINTS - param.NPTS + 1; i++){
         start = POINTS[i];
-        end = POINTS[i + param.NPTS];
+        end = POINTS[i + param.NPTS - 1];
+
         if(start.equals(end)){
           for(int j = i + 1; j < i + param.NPTS - 1; j++){
             double dist = distancePoint(POINTS[j], start);

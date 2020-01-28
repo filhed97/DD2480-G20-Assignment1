@@ -209,27 +209,20 @@ public class Tests {
 	  Point2D.Double d = new Point2D.Double(0,1);
 	  Point2D.Double e = new Point2D.Double(1,0);
 	
-
-      System.out.println("Test 1");
 	  //Test 1, check angle < PI-EPSILON.
       Point2D.Double[] data1 = {a, b, c}; //abc is a PI/2 rad angle
       CMV cmv1 = new CMV(3, data1, param);
       //Should be true since PI/2 is less than PI-EPSILON=3PI/4
       assertThat(cmv1.DECIDE()[2], equalTo(true));
 
-
-      System.out.println("Test 2");
 	  //Test 2, check angle > PI+EPSILON.
       Point2D.Double[] data2 = {a, b, e}; //abe is a 3PI/2 rad angle
       CMV cmv2 = new CMV(3, data2, param);
       //Should be success since 3PI/2 is larger than 5PI/4
       assertThat(cmv2.DECIDE()[2], equalTo(true));
 
-      System.out.println("Test 3");
 	  //Test 3, check if angle lays between PI-EPSILON and PI+EPSILON
-      System.out.println("Location d = " + d.getX() + ", " + d.getY());
 	  d.setLocation(0.0, 1.100);
-      System.out.println("Location d = " + d.getX() + ", " + d.getY());
       Point2D.Double[] data3 = {a, b, d}; //abd is a PI rad angle
       CMV cmv3 = new CMV(3, data3, param);
       //Should be false since PI lies in PI +/- EPSILON
@@ -243,6 +236,7 @@ public class Tests {
 
 	  //Test 5, edge case where EPSILON = 0.
 	  param.EPSILON = 0;
+      d.setLocation(0, 1);
 	  Point2D.Double[] data5 = {a, b, d}; //abc is a PI rad angle
       CMV cmv5 = new CMV(3, data5, param);
       //Should be false, since angle should be strictly smaller or larger than PI.
@@ -285,11 +279,12 @@ public class Tests {
 		//Should be true, since dist is 2, and the distance from a to d is 3.
 		assertThat(cmv3.DECIDE()[6], equalTo(true));
 		
+        b.setLocation(1, 0.0001);
 		//Test 4, check case where DIST = 0, i.e. every input should be true.
 		param.DIST = 0;
-		Point2D.Double[] data4 = {a, a, d};
+		Point2D.Double[] data4 = {a, b, d};
 		CMV cmv4 = new CMV(3, data4, param);
-		//Should be true, since points coinciding with the line are at least 0 distance away from the line.
+		//Should be true, since any point not on the line should fulfill the distance condition
 		assertThat(cmv4.DECIDE()[6], equalTo(true));
 		
 		//Test 5, not enough points.
