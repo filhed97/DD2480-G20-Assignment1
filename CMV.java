@@ -47,9 +47,14 @@ public class CMV{
     }
 
     public boolean LIC2(){
+      System.out.println("POINTS 1 = " + POINTS[0]);
+      System.out.println("POINTS 2 = " + POINTS[1]);
+      System.out.println("POINTS 3 = " + POINTS[2]);
+      System.out.println("eplsilon " + param.EPSILON);
 		if(param.EPSILON < 0 || param.EPSILON > Math.PI){
         return false;
       }
+
 
       Point a, b, c;
       for(int i = 0; i < NUMPOINTS - 2; i++){
@@ -57,6 +62,10 @@ public class CMV{
         b = POINTS[i + 1];
         c = POINTS[i + 2];
         double angle = calculateAngle(a, b, c);
+        if(angle < 0){
+          angle += 2 * Math.PI;
+        }
+        System.out.println(angle);
         if(angle > (Math.PI + param.EPSILON) || angle < (Math.PI - param.EPSILON)){
           return true;
         }
@@ -187,7 +196,7 @@ public class CMV{
 
     //Calculates the angle between the lines a-b and b-c
     private double calculateAngle(Point a, Point b, Point c){
-      return Math.atan2(c.getY() - b.getY(), c.getX() - b.getX()) - Math.atan2(a.getY() - b.getY(), c.getX() - c.getY());
+      return Math.atan2(c.getY() - b.getY(), c.getX() - b.getX()) - Math.atan2(a.getY() - b.getY(), a.getX() - b.getX());
     }
 
     //Calculates the distance between two points

@@ -157,20 +157,27 @@ public class Tests {
 	  Point d = new Point(0,1);
 	  Point e = new Point(1,0);
 	
+
+      System.out.println("Test 1");
 	  //Test 1, check angle < PI-EPSILON.
       Point[] data1 = {a, b, c}; //abc is a PI/2 rad angle
       CMV cmv1 = new CMV(3, data1, param);
       //Should be true since PI/2 is less than PI-EPSILON=3PI/4
       assertThat(cmv1.DECIDE()[2], equalTo(true));
 
+
+      System.out.println("Test 2");
 	  //Test 2, check angle > PI+EPSILON.
       Point[] data2 = {a, b, e}; //abe is a 3PI/2 rad angle
       CMV cmv2 = new CMV(3, data2, param);
       //Should be success since 3PI/2 is larger than 5PI/4
       assertThat(cmv2.DECIDE()[2], equalTo(true));
 
+      System.out.println("Test 3");
 	  //Test 3, check if angle lays between PI-EPSILON and PI+EPSILON
-	  //d.setLocation(0.00,1.100);
+      System.out.println("Location d = " + d.getX() + ", " + d.getY());
+	  d.setLocation(-10, 0);
+      System.out.println("Location d = " + d.getX() + ", " + d.getY());
       Point[] data3 = {a, b, d}; //abd is a PI rad angle
       CMV cmv3 = new CMV(3, data3, param);
       //Should be false since PI lies in PI +/- EPSILON
