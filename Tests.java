@@ -33,7 +33,7 @@ public class Tests {
     public void MainTemplate(){
         Main main = new Main();
         main.NUMPOINTS = 5;
-        main.POINTS = new Point[]{new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0)};
+        main.POINTS = new Point2D.Double[]{new Point2D.Double(0, 0), new Point2D.Double(0, 0), new Point2D.Double(0, 0), new Point2D.Double(0, 0), new Point2D.Double(0, 0)};
         main.PARAMETERS = new Parameters(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19);
 
         main.LCM = new Main.LogicalOperators[][]{ {Main.LogicalOperators.NOTUSED, Main.LogicalOperators.ANDD, Main.LogicalOperators.ANDD, Main.LogicalOperators.ANDD, Main.LogicalOperators.ANDD, Main.LogicalOperators.ANDD, Main.LogicalOperators.ANDD, Main.LogicalOperators.ANDD, Main.LogicalOperators.ANDD, Main.LogicalOperators.ANDD, Main.LogicalOperators.ANDD, Main.LogicalOperators.ANDD, Main.LogicalOperators.ANDD, Main.LogicalOperators.ANDD, Main.LogicalOperators.ANDD},
@@ -53,7 +53,7 @@ public class Tests {
                                                 {Main.LogicalOperators.ANDD, Main.LogicalOperators.ANDD, Main.LogicalOperators.ANDD, Main.LogicalOperators.ANDD, Main.LogicalOperators.ANDD, Main.LogicalOperators.ANDD, Main.LogicalOperators.ANDD, Main.LogicalOperators.ANDD, Main.LogicalOperators.ANDD, Main.LogicalOperators.ANDD, Main.LogicalOperators.ANDD, Main.LogicalOperators.ANDD, Main.LogicalOperators.ANDD, Main.LogicalOperators.ANDD, Main.LogicalOperators.NOTUSED}};
         main.PUV = new boolean[]{false, false, false, false, false, false, false, false, false, false, false, false, false, false, false};
 
-        main.getLaunch();
+        main.getLaunch(false);
 
         //assertThat(main.LAUNCH, equalTo(true));
     }
@@ -62,31 +62,19 @@ public class Tests {
     public void Main1(){
         Main main = new Main();
         main.NUMPOINTS = 5;
-        main.POINTS = new Point[]{new Point(0, 0), new Point(100, 5), new Point(-1, 5), new Point(14.2, 0), new Point(0, -5)};
+        main.POINTS = new Point2D.Double[]{new Point2D.Double(0, 0), new Point2D.Double(100, 5), new Point2D.Double(-1, 5), new Point2D.Double(14.2, 0), new Point2D.Double(0, -5)};
         main.PARAMETERS = new Parameters(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19);
 
-        CMV mockCMV = mock(CMV.class);
-        when(MockCMV.LIC0()).thenReturn(false);
-        when(MockCMV.LIC1()).thenReturn(true);
-        when(MockCMV.LIC2()).thenReturn(true);
-        when(MockCMV.LIC3()).thenReturn(false);
-        when(MockCMV.LIC4()).thenReturn(true);
-        when(MockCMV.LIC5()).thenReturn(true);
-        when(MockCMV.LIC6()).thenReturn(true);
-        when(MockCMV.LIC7()).thenReturn(true);
-        when(MockCMV.LIC8()).thenReturn(false);
-        when(MockCMV.LIC9()).thenReturn(true);
-        when(MockCMV.LIC10()).thenReturn(true);
-        when(MockCMV.LIC11()).thenReturn(true);
-        when(MockCMV.LIC12()).thenReturn(false);
-        when(MockCMV.LIC13()).thenReturn(true);
-        when(MockCMV.LIC14()).thenReturn(true);
+        boolean[] expected = new boolean[15];
+        Arrays.fill(expected, true);
+        main.cmv = mock(CMV.class);
+        when(main.cmv.DECIDE()).thenReturn(expected);
 
         main.LCM = new Main.LogicalOperators[15][15];
         for (int i = 0; i < 15; i++) {
           for (int j = 0; j < 15; j++) {
-            if(i == j) main.LCM[i] = Main.LogicalOperators.NOTUSED;
-            main.LCM[i] = Main.LogicalOperators.ORR;
+            if(i == j) main.LCM[i][i] = Main.LogicalOperators.NOTUSED;
+            main.LCM[i][j] = Main.LogicalOperators.ORR;
           }
         }
         main.LCM[0][1] = Main.LogicalOperators.ANDD;
@@ -96,7 +84,7 @@ public class Tests {
         Arrays.fill(main.PUV, true);
         main.PUV[0] = false;
 
-        main.getLaunch();
+        main.getLaunch(true);
         assertThat(main.LAUNCH, equalTo(true));
     }
 
@@ -105,7 +93,7 @@ public class Tests {
     public void Main2(){
       Main main = new Main();
       main.NUMPOINTS = 4;
-      main.POINTS = new Point[]{new Point(0, 0), new Point(1, 0), new Point(1, 1), new Point(0, 1)};
+      main.POINTS = new Point2D.Double[]{new Point2D.Double(0, 0), new Point2D.Double(1, 0), new Point2D.Double(1, 1), new Point2D.Double(0, 1)};
 
       //double LENGTH1,double RADIUS1,double EPSILON,double AREA1,int QPTS,
       //int QUADS,double DIST,int NPTS,int KPTS,int APTS,int BPTS,int CPTS, int DPTS,
@@ -130,11 +118,11 @@ public class Tests {
       }
       main.PUV = new boolean[15];
       Arrays.fill(main.PUV, false);
-      main.getLaunch();
+      main.getLaunch(false);
       assertThat(main.LAUNCH, equalTo(true));
 
       Arrays.fill(main.PUV, true);
-      main.getLaunch();
+      main.getLaunch(false);
       assertThat(main.LAUNCH, equalTo(false));
     }
 

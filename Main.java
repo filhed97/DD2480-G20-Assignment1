@@ -13,17 +13,21 @@ public class Main{
     public Parameters PARAMETERS;
     public LogicalOperators[][] LCM = new LogicalOperators[15][15];
     public boolean[] PUV = new boolean[15];
+    public CMV cmv;
     public boolean[] cmvResult = new boolean[15];
     public boolean LAUNCH;
     public boolean[][] PUM = new boolean[15][15];
     public boolean[] FUV = new boolean[15];
 
-    public void getLaunch(){
-        CMV cmv = new CMV(NUMPOINTS, POINTS, PARAMETERS);
-        cmvResult = cmv.DECIDE();
-        fillPUM();
-        fillFUV();
-        makeLaunchDecision();
+
+    public void getLaunch(boolean mockTesting){
+      if(!mockTesting){
+        cmv = new CMV(NUMPOINTS, POINTS, PARAMETERS);
+      }
+      cmvResult = cmv.DECIDE();
+      fillPUM();
+      fillFUV();
+      makeLaunchDecision();
     }
 
     /**
