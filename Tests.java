@@ -136,4 +136,17 @@ public class Tests {
 
     }
 
+    // Test launch function.
+    // LAUNCH set to true if all values in FUV are true, otherwise false.
+    @Test
+    public void testLaunch() {
+        Arrays.fill(main.FUV, true);
+        main.makeLaunchDecision();
+        assertThat(main.LAUNCH, equalTo(true));
+
+        main.FUV[0] = false;
+        main.makeLaunchDecision();
+        assertThat(main.LAUNCH, equalTo(false));
+    }
+
 }
