@@ -49,8 +49,8 @@ public class CMV{
   			b = POINTS[i+1];
   			c = POINTS[i+2];
 
-  			double x = (a.getX() + b.getX() + c.getX())/3;
-  			double y = (a.getY() + b.getY() + c.getY())/3;
+  			double x = (a.getX() + b.getX() + c.getX())/3.0;
+  			double y = (a.getY() + b.getY() + c.getY())/3.0;
   			centre = new Point(0,0);
   			centre.setLocation(x,y);
 
@@ -96,6 +96,7 @@ public class CMV{
       return false;
     }
 
+    //Doesn't work for PI angle
     public boolean LIC9(){
   		for(int i = 0; i<NUMPOINTS-(param.CPTS+param.DPTS+2); i++){
   			Point a,b,c;
@@ -123,8 +124,9 @@ public class CMV{
     public boolean LIC13(){
 		boolean condition1 = false;
 		boolean condition2 = false;
-		for(int i = 0; i<NUMPOINTS-(param.APTS+param.BPTS+2); i++){
-			Point a,b,c,centre;
+    Point centre = null;
+		for(int i = 0; i<NUMPOINTS-(param.APTS+param.BPTS +2); i++){
+			Point a,b,c;
 			a = POINTS[i];
 			b = POINTS[i+param.APTS+1];
 			c = POINTS[i+param.APTS+param.BPTS+2];
@@ -140,11 +142,10 @@ public class CMV{
 				condition1 = true;
 
 			if(centre.distance(a) <= param.RADIUS2
-			||	centre.distance(b) <= param.RADIUS2
-			||	centre.distance(c) <= param.RADIUS2)
+			&&	centre.distance(b) <= param.RADIUS2
+			&&	centre.distance(c) <= param.RADIUS2)
 				condition2 = true;
 		}
-
 		if(condition1 && condition2)
 			return true;
 
@@ -162,7 +163,8 @@ public class CMV{
     }
 
     //Calculates the angle between the lines a-b and b-c
-    private double calculateAngle(Point a, Point b, Point c){
+    //This method doesn't work for if all points are on the X-axis
+    public double calculateAngle(Point a, Point b, Point c){
       return Math.atan2(c.getY() - b.getY(), c.getX() - b.getX()) - Math.atan2(a.getY() - b.getY(), c.getX() - c.getY());
     }
 
