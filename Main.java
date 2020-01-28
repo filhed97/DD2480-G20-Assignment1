@@ -13,7 +13,7 @@ public class Main{
     public Parameters PARAMETERS;
     public LogicalOperators[][] LCM = new LogicalOperators[15][15];
     public boolean[] PUV = new boolean[15];
-    public String LAUNCH;
+    public boolean LAUNCH;
     public boolean[] cmv = new boolean[15];
     public boolean[][] PUM = new boolean[15][15];
     public boolean[] FUV = new boolean[15];
@@ -39,6 +39,16 @@ public class Main{
                 }
             }
         }
+    }
+
+    public void makeLaunchDecision() {
+        for (int i = 0; i < 15; i++) {
+            if (!FUV[i]) {
+                LAUNCH = false;
+                return;
+            }
+        }
+        LAUNCH = true;
     }
 
 }
