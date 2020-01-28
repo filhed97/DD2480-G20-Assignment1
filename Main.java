@@ -13,18 +13,45 @@ public class Main{
     public Parameters PARAMETERS;
     public LogicalOperators[][] LCM = new LogicalOperators[15][15];
     public boolean[] PUV = new boolean[15];
-    public String LAUNCH;
     public boolean[] cmvResult = new boolean[15];
+    public boolean LAUNCH;
     public boolean[][] PUM = new boolean[15][15];
     public boolean[] FUV = new boolean[15];
 
     public void getLaunch(){
         CMV cmv = new CMV(NUMPOINTS, POINTS, PARAMETERS);
         cmvResult = cmv.DECIDE();
-        //fillPUM();
+        fillPUM();
         fillFUV();
-        //Launch();
-        LAUNCH = "Yes";
+        makeLaunchDecision();
+    }
+
+    /**
+     * Fill in the Preliminary Unlocking Matrix.
+     */
+    public void fillPUM() {
+        for (int i = 0; i < 15; i++) {
+            for (int j = 0; j < 15; j++) {
+
+                if (LCM[i][j] == LogicalOperators.NOTUSED) {
+                    PUM[i][j] = true;
+
+                } else if (LCM[i][j] == LogicalOperators.ORR) {
+                    if (cmvResult[i] || cmvResult[j]) {
+                        PUM[i][j] = true;
+                    } else {
+                        PUM[i][j] = false;
+                    }
+
+                } else if (LCM[i][j] == LogicalOperators.ANDD) {
+                    if (cmvResult[i] && cmvResult[j]) {
+                        PUM[i][j] = true;
+                    } else {
+                        PUM[i][j] = false;
+                    }
+                }
+            }
+        }
     }
 
     //Fills the FUV by reading the PUV and PUM
@@ -43,6 +70,16 @@ public class Main{
                 }
             }
         }
+    }
+
+    public void makeLaunchDecision() {
+        for (int i = 0; i < 15; i++) {
+            if (!FUV[i]) {
+                LAUNCH = false;
+                return;
+            }
+        }
+        LAUNCH = true;
     }
 
 }
