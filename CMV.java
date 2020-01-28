@@ -45,7 +45,7 @@ public class CMV{
         return false;
       }
       for (int i = 0; i < NUMPOINTS - 1; i++) {
-        if(dist(POINTS[i],POINTS[i+1]) <= param.LENGTH1){
+        if(dist(POINTS[i],POINTS[i+1]) > param.LENGTH1){
           return true;
         }
       }
@@ -53,7 +53,24 @@ public class CMV{
     }
 
     public boolean LIC1(){
-      return false;
+  		for(int i = 0; i<NUMPOINTS-2; i++){
+  			Point a,b,c,centre;
+  			a = POINTS[i];
+  			b = POINTS[i+1];
+  			c = POINTS[i+2];
+
+  			double x = (a.getX() + b.getX() + c.getX())/3.0;
+  			double y = (a.getY() + b.getY() + c.getY())/3.0;
+  			centre = new Point(0,0);
+  			centre.setLocation(x,y);
+
+  			//calculate all distances and compare to radius
+  			//if one point is outside circle centered around 3 points with spec. radius, LIC is true.
+  			if(centre.distance(a) > param.RADIUS1
+  			||	centre.distance(b) > param.RADIUS1
+  			||	centre.distance(c) > param.RADIUS1) return true;
+		  }
+        return false;
     }
 
     public boolean LIC2(){
@@ -98,10 +115,16 @@ public class CMV{
             }
             if (nbUsed > param.QUADS) return true;
         }
+        return false;
     }
 
+
     public boolean LIC5(){
-      return false;
+		for(int i = 0; i<NUMPOINTS-1; i++){
+			if(POINTS[i+1].getX()-POINTS[i].getX() < 0)
+				return true;
+		}
+        return false;
     }
 
     public boolean LIC6(){
@@ -112,6 +135,10 @@ public class CMV{
       return false;
     }
 
+    //-----> IMPORTANT <-----
+    //If this implementation fails try LIC1 implementation
+    //before trying to hard to solve this one.
+    //
     //True iff 3 consecutive points sperated by APTS and BPTS respectively
     //are contained in a circle of radius RADIUS1
     public boolean LIC8(){
@@ -125,10 +152,10 @@ public class CMV{
 
       Point a, b, c;
       boolean inCircle;
-      for (int i = 0; i < NUMPOINTS - param.APTS - param.BPTS; i++) {
+      for (int i = 0; i < NUMPOINTS - param.APTS - param.BPTS - 2; i++) {
         a = POINTS[i];
-        b = POINTS[i + param.APTS];
-        c = POINTS[i + param.APTS + param.BPTS];
+        b = POINTS[i + param.APTS + 1];
+        c = POINTS[i + param.APTS + param.BPTS + 2];
         inCircle = true;
 
         //The circle that passes exactly through a, b and c is the smallest circle
@@ -139,8 +166,18 @@ public class CMV{
       return false;
     }
 
+    //Doesn't work for PI angle
     public boolean LIC9(){
-      return false;
+  		for(int i = 0; i<NUMPOINTS-(param.CPTS+param.DPTS+2); i++){
+  			Point a,b,c;
+  			a = POINTS[i];
+  			b = POINTS[i+param.CPTS+1];
+  			c = POINTS[i+param.CPTS+param.DPTS+2];
+  			double angle = calculateAngle(a, b, c);
+  			if(angle > (Math.PI + param.EPSILON) || angle < (Math.PI - param.EPSILON))
+  				return true;
+  		}
+        return false;
     }
 
     public boolean LIC10(){
@@ -167,17 +204,45 @@ public class CMV{
         boolean l2 = false;
         //Current distance evaluated
         double d = 0;
-        for (int i = 0; i < NUMPOINTS - param.KPTS; i++) {
-            d = dist(POINTS[i], POINTS[i + param.KPTS]);
+        for (int i = 0; i < NUMPOINTS - param.KPTS - 1; i++) {
+            d = dist(POINTS[i], POINTS[i + param.KPTS + 1]);
             if (d < param.LENGTH1) l1 = true;
             if (d > param.LENGTH2) l2 = true;
             if (l1 && l2) return true;
         }
+        return false;
     }
 
     public boolean LIC13(){
-      return false;
-    }
+		boolean condition1 = false;
+		boolean condition2 = false;
+        Point centre = null;
+		for(int i = 0; i<NUMPOINTS-(param.APTS+param.BPTS +2); i++){
+			Point a,b,c;
+			a = POINTS[i];
+			b = POINTS[i+param.APTS+1];
+			c = POINTS[i+param.APTS+param.BPTS+2];
+
+			double x = (a.getX() + b.getX() + c.getX())/3;
+			double y = (a.getY() + b.getY() + c.getY())/3;
+			centre = new Point(0,0);
+			centre.setLocation(x,y);
+
+			if(centre.distance(a) > param.RADIUS1
+			||	centre.distance(b) > param.RADIUS1
+			||	centre.distance(c) > param.RADIUS1)
+				condition1 = true;
+
+			if(centre.distance(a) <= param.RADIUS2
+			&&	centre.distance(b) <= param.RADIUS2
+			&&	centre.distance(c) <= param.RADIUS2)
+				condition2 = true;
+		}
+		if(condition1 && condition2)
+			return true;
+
+		return false;
+  }
 
     public boolean LIC14(){
       return false;
@@ -189,7 +254,8 @@ public class CMV{
     }
 
     //Calculates the angle between the lines a-b and b-c
-    private double calculateAngle(Point a, Point b, Point c){
+    //This method doesn't work for if all points are on the X-axis
+    public double calculateAngle(Point a, Point b, Point c){
       return Math.atan2(c.getY() - b.getY(), c.getX() - b.getX()) - Math.atan2(a.getY() - b.getY(), c.getX() - c.getY());
     }
 
