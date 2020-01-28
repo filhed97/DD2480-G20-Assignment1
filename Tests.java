@@ -238,7 +238,7 @@ public class Tests {
       CMV cmv3 =  new CMV(2, data3,param);
       assertThat(cmv3.LIC5(), equalTo(false));//a.X - b.X = 1 > 0
     }
-
+	
 	//Tests true if there exists two points separated by exactly KPTS consecutive intervening
     //a distance larger than LENGTH away from each other
     @Test
@@ -274,7 +274,7 @@ public class Tests {
         //data4 doesn't satisfy LIC7 thus not should be true
         assertThat(cmv2.DECIDE()[7], is(not(equalTo(true)))); //lots of syntatic sugar
     }
-	
+
     //Assuming that the angle of 3 points is in rad in [0, PI].
     //
     //Tests true iff exists 3 consecutive points separated by CPTS and DPTS
@@ -466,4 +466,6 @@ public class Tests {
         }
       }
     }
+
 }
+
