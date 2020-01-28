@@ -85,6 +85,63 @@ public class Tests {
         assertThat(cmv3.LIC0(), is(not(equalTo(true)))); //lots of syntatic sugar
     }
 
+    @Test
+    public void testLIC4() {
+        param.QUADS = 1;
+
+        Point a = new Point(1,0);
+        Point b = new Point(-1, 0);
+
+        // This test isn't passing
+        Point[] data1 = {a, b};
+        CMV cmv1 = new CMV(2, data1, param);
+        assertThat(cmv1.LIC4(), is(equalTo(true)));
+
+        param.QUADS = 3;
+        CMV cmv2 = new CMV(2, data1, param);
+        assertThat(cmv2.LIC4(), is(equalTo(false)));
+    }
+
+    @Test
+    public void testLIC8() {
+        param.RADIUS1 = 2;
+        param.APTS = 1;
+        param.APTS = 2;
+
+        Point a = new Point(1, 0);
+        Point b = new Point(0, 1);
+        Point c = new Point(0, -1);
+        Point d = new Point(5, 0);
+
+        // This test isn't passing.
+        Point[] data1 = {a, d, b, d, d, c};
+        CMV cmv1 = new CMV(6, data1, param);
+        assertThat(cmv1.LIC8(), is(equalTo(true)));
+
+        Point[] data2 = {a, d, d, b, d, c};
+        CMV cmv2 = new CMV(6, data2, param);
+        assertThat(cmv2.LIC8(), is(equalTo(false)));
+    }
+
+    @Test
+    public void testLIC12() {
+        param.LENGTH1 = 3;
+        param.LENGTH2 = 6;
+        param.KPTS = 1;
+
+        Point a = new Point(0, 0);
+        Point b = new Point (5, 0);
+        Point c = new Point(8, 0);
+
+        Point[] data1 = {a, c, b};
+        CMV cmv1 = new CMV(3, data1, param);
+        assertThat(cmv1.LIC12(), is(equalTo(true)));
+
+        Point[] data2 = {a, b, c};
+        CMV cmv2 = new CMV(3, data2, param);
+        assertThat(cmv2.LIC12(), is(equalTo(false)));
+    }
+
     //Initialize parameters
     //Always intialize the relevant param values needed in your tests
     private Parameters param = new Parameters(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);

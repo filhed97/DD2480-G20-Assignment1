@@ -198,16 +198,16 @@ public class CMV{
             return false;
         }
         if (NUMPOINTS < 3) return false;
-        //true iff distance is smaller than LENGTH1
+        //true iff distance is smaller than LENGTH1 // should be greater than LENGTH1
         boolean l1 = false;
-        //true iff distance is greater than LENGTH2
+        //true iff distance is greater than LENGTH2 // should be less than LENGTH2
         boolean l2 = false;
         //Current distance evaluated
         double d = 0;
         for (int i = 0; i < NUMPOINTS - param.KPTS - 1; i++) {
             d = dist(POINTS[i], POINTS[i + param.KPTS + 1]);
-            if (d < param.LENGTH1) l1 = true;
-            if (d > param.LENGTH2) l2 = true;
+            if (d > param.LENGTH1) l1 = true;
+            if (d < param.LENGTH2) l2 = true;
             if (l1 && l2) return true;
         }
         return false;
