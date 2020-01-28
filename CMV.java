@@ -1,3 +1,5 @@
+import java.awt.Point;
+import java.util.Arrays;
 import java.awt.geom.Point2D;
 import java.lang.Math;
 
@@ -9,11 +11,9 @@ public class CMV{
 
 
     public CMV(int NUMPOINTS,Point2D.Double[] POINTS, Parameters param){
-
       this.NUMPOINTS = NUMPOINTS;
       this.POINTS = POINTS;
       this.param = param;
-
     }
 
     //Returns a new array implementing the cmv
@@ -38,7 +38,18 @@ public class CMV{
       return cmv;
     }
 
+    //True iff there exists 2 points at a smaller distance than LENGTH1
     public boolean LIC0(){
+      //Argument check
+      if(param.LENGTH1 < 0){
+        System.err.println("LIC0: negative LENGTH1");
+        return false;
+      }
+      for (int i = 0; i < NUMPOINTS - 1; i++) {
+        if(dist(POINTS[i],POINTS[i+1]) > param.LENGTH1){
+          return true;
+        }
+      }
       return false;
     }
 
@@ -63,7 +74,7 @@ public class CMV{
         return false;
     }
 
-    //Returns true if there exists three consecutive points which form an angle 
+    //Returns true if there exists three consecutive points which form an angle
     //larger than PI + Epsilon or smaller than PI - epsilon
     public boolean LIC2(){
 		  if(param.EPSILON < 0 || param.EPSILON > Math.PI){
@@ -113,8 +124,43 @@ public class CMV{
         return false;
     }
 
-    public boolean LIC4(){
-      return false;
+    //True iff exists points in QPTS consecutive points
+    //that are located in QUADS different quadrants.
+    public boolean LIC4() {
+        if (param.QPTS < 2 || param.QPTS > NUMPOINTS || param.QUADS < 1 || param.QUADS > 3) {
+            System.err.println("LIC4: argument(s) out of bounds");
+            return false;
+        }
+        //One entry per quadrant, true iff exists a point in the quadrant
+        boolean[] quadUsed = new boolean[4];
+        //Counter of the nb of quadrants set to true
+        int nbUsed = 0;
+        //The quadrant where the current point evaluated is
+        int currQuad = 0;
+        for (int i = 0; i < NUMPOINTS - param.QPTS + 1; i++) {
+            //Reset to false every new QPTS points
+            Arrays.fill(quadUsed, Boolean.FALSE);
+            nbUsed = 0;
+            currQuad = 0;
+            for (int j = i; j < i + param.QPTS; j++) {
+                //Find the quad of the curr point
+                //If it's the first in this quad increase nbUsed
+                //and update the quadUsed entry
+
+                currQuad = getQuad(POINTS[j]);
+                System.out.println("("+POINTS[j].getX()+", "+POINTS[j].getY()+") : "+ currQuad);
+                if (currQuad == 0) {
+                    System.err.println("LIC4: not quadrant found");
+                    return false;
+                }
+                if (!quadUsed[currQuad - 1]) {
+                    nbUsed++;
+                    quadUsed[currQuad - 1] = true;
+                }
+            }
+            if (nbUsed > param.QUADS) return true;
+        }
+        return false;
     }
 
 
@@ -168,19 +214,46 @@ public class CMV{
 
         Point2D.Double a, b;
         for (int i = 0; i < NUMPOINTS - 1 - param.KPTS; i++) {
-            
+
             a = POINTS[i];
             b = POINTS[i + param.KPTS + 1];
             double distance = distancePoint(a, b);
 
             if (distance > param.LENGTH1) {
 				return true;
-            }            
+            }
         }
         return false;
     }
 
+    //-----> IMPORTANT <-----
+    //If this implementation fails try LIC1 implementation
+    //before trying to hard to solve this one.
+    //
+    //True iff 3 consecutive points sperated by APTS and BPTS respectively
+    //are contained in a circle of radius RADIUS1
     public boolean LIC8(){
+      //Argument check
+      if(param.APTS < 1 || param.BPTS < 1 || param.RADIUS1 < 0 ||
+      param.APTS + param.BPTS > NUMPOINTS - 3 ){
+        System.err.println("LIC8: argument(s) out of bounds");
+        return false;
+      }
+      if(NUMPOINTS < 5) return false;
+
+      Point2D.Double a, b, c;
+      boolean inCircle;
+      for (int i = 0; i < NUMPOINTS - param.APTS - param.BPTS - 2; i++) {
+        a = POINTS[i];
+        b = POINTS[i + param.APTS + 1];
+        c = POINTS[i + param.APTS + param.BPTS + 2];
+        inCircle = true;
+
+        //The circle that passes exactly through a, b and c is the smallest circle
+        //that contains the 3 points. Thus RADIUS1 has to be greater or equal
+        //in order to be able to contain the 3 points.
+        if(getRadiusCircle(a,b,c) <= param.RADIUS1) return true;
+      }
       return false;
     }
 
@@ -231,13 +304,34 @@ public class CMV{
 
 				if (b.getX() - a.getX() < 0) {
 					return true;
-				}     
+				}
         }
         return false;
     }
 
-    public boolean LIC12(){
-      return false;
+    //True iff exists 2 pairs of points, where the 2 points in each pair are separated by KPTS,
+    //such that: the points of one pair are at a distance smaller than LENGTH1 and
+    //the points of the other pair are at a distance greater than LENGTH2.
+    public boolean LIC12() {
+        //Argument check
+        if (param.LENGTH1 < 0 || param.LENGTH2 < 0 || param.KPTS < 1) {
+            System.err.println("LIC12: Argument(s) out of bounds");
+            return false;
+        }
+        if (NUMPOINTS < 3) return false;
+        //true iff distance is smaller than LENGTH1 // should be greater than LENGTH1
+        boolean l1 = false;
+        //true iff distance is greater than LENGTH2 // should be less than LENGTH2
+        boolean l2 = false;
+        //Current distance evaluated
+        double d = 0;
+        for (int i = 0; i < NUMPOINTS - param.KPTS - 1; i++) {
+            d = dist(POINTS[i], POINTS[i + param.KPTS + 1]);
+            if (d > param.LENGTH1) l1 = true;
+            if (d < param.LENGTH2) l2 = true;
+            if (l1 && l2) return true;
+        }
+        return false;
     }
 
     public boolean LIC13(){
