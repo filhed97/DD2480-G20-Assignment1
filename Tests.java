@@ -2,7 +2,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.*;
-import java.awt.Point;
+import java.awt.geom.Point2D;
 import static org.mockito.Mockito.*;
 import java.util.Arrays;
 
@@ -60,7 +60,7 @@ public class Tests {
     //Initialize parameters
     //Always intialize the relevant param values needed in your tests
     private Parameters param = new Parameters(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
-    
+
     //Object containing the input parameters, such as the PUV or the PUM,
     //and the methods that compute their values.
     private Main main = new Main();
@@ -161,21 +161,21 @@ public class Tests {
     @Test
     public void LIC1(){
       param.RADIUS1 = 1;
-      Point a,b,c,d,e;
-      d = new Point(-2,0);
-      e = new Point(3,0);
-      //a, b and c are the points that can be contained in the circle
-      a = new Point(0,0);
-      b = new Point(1,0);
-      c = new Point(0,1);
+      Point2D.Double a,b,c,d,e;
+      d = new Point2D.Double(-2,0);
+      e = new Point2D.Double(3,0);
+      //a, b and c are the Point that can be contained in the circle
+      a = new Point2D.Double(0,0);
+      b = new Point2D.Double(1,0);
+      c = new Point2D.Double(0,1);
 
 
-      Point[] data1 = {a,b,c}; // a,b,c can be contained
+      Point2D.Double[] data1 = {a,b,c}; // a,b,c can be contained
       CMV cmv1 = new CMV(3, data1, param);
       //data1 doesn't satisfy LIC1 thus should not be true
       assertThat(cmv1.LIC1(), is(not(equalTo(true)))); //lots of syntatic sugar
 
-      Point[] data2 = {a,d,b,e,c}; // cannot be contained
+      Point2D.Double[] data2 = {a,d,b,e,c}; // cannot be contained
       CMV cmv2 = new CMV(5, data2, param);
       //data2 satisfy LIC1 thus should be true
       assertThat(cmv2.LIC1(), is((equalTo(true))));
@@ -183,7 +183,7 @@ public class Tests {
       //Let's create an equilateral triangle of side length 2
       b.setLocation(2,0);
       c.setLocation(1, Math.sqrt(3.0)); //Pythagoras => sqrt(3)^2 + 1^2 = 2^2
-      Point[] data3 = {a,b,c};
+      Point2D.Double[] data3 = {a,b,c};
       //data3 doesn't satisfy LIC1
       CMV cmv3 = new CMV(3, data3, param);
       assertThat(cmv3.LIC1(), equalTo(true));
@@ -194,18 +194,18 @@ public class Tests {
     //Limit case: X[i] - X[j] = 0
     @Test
     public void LIC5(){
-      Point a = new Point(1,0);
-      Point b = new Point(0,0);
+      Point2D.Double a = new Point2D.Double(1,0);
+      Point2D.Double b = new Point2D.Double(0,0);
 
-      Point[] data1 = {a,b};
+      Point2D.Double[] data1 = {a,b};
       CMV cmv1 = new CMV(2, data1, param);
       assertThat(cmv1.LIC5(), equalTo(true));//b.X - a.X = -1 < 0
 
-      Point[] data2 = {a,a,a,a,a,a};
+      Point2D.Double[] data2 = {a,a,a,a,a,a};
       CMV cmv2 =  new CMV(6, data2,param);
       assertThat(cmv2.LIC5(), equalTo(false));// a.X - a.X not strictly less than 0
 
-      Point[] data3 = {b,a};
+      Point2D.Double[] data3 = {b,a};
       CMV cmv3 =  new CMV(2, data3,param);
       assertThat(cmv3.LIC5(), equalTo(false));//a.X - b.X = 1 > 0
     }
@@ -224,21 +224,21 @@ public class Tests {
       param.CPTS = 1;
       param.DPTS = 1;
 
-      Point a = new Point(0,0);
-      Point b = new Point(1,0);
-      Point c = new Point(0,1);
-      Point skip = new Point(0,0);
+      Point2D.Double a = new Point2D.Double(0,0);
+      Point2D.Double b = new Point2D.Double(1,0);
+      Point2D.Double c = new Point2D.Double(0,1);
+      Point2D.Double skip = new Point2D.Double(0,0);
 
       param.EPSILON = 0;
-      Point[] data1 = {a, skip, b, skip, c}; //abc is a PI/2 rad angle
+      Point2D.Double[] data1 = {a, skip, b, skip, c}; //abc is a PI/2 rad angle
       CMV cmv1 = new CMV(5, data1, param);
       //Should be true for any angle except PI
       assertThat(cmv1.LIC9(), equalTo(true));
 
 
-      Point d = new Point(1,1);
-      Point e = new Point(-1,-1);
-      Point[] data2 = {e, skip, a, skip, d}; //abd is a PI rad angle
+      Point2D.Double d = new Point2D.Double(1,1);
+      Point2D.Double e = new Point2D.Double(-1,-1);
+      Point2D.Double[] data2 = {e, skip, a, skip, d}; //abd is a PI rad angle
       CMV cmv2 = new CMV(5, data2, param);
       //Should be false since angle should be different that PI
       //assertThat(cmv2.LIC9(), equalTo(false));
@@ -248,7 +248,7 @@ public class Tests {
       //Should be true for any angle except 0
       assertThat(cmv3.LIC9(), equalTo(true));
 
-      Point[] data3 = {a, skip, b, skip, a}; //aba is a 0 rad angle
+      Point2D.Double[] data3 = {a, skip, b, skip, a}; //aba is a 0 rad angle
       CMV cmv4 = new CMV(5, data3, param);
       //Should be false for angle 0
       assertThat(cmv4.LIC9(), equalTo(false));
@@ -257,7 +257,7 @@ public class Tests {
       //false since NUMPOINTS has to be greater than 4
       assertThat(cmv5.LIC9(), equalTo(false));
 
-      Point[] data4 = {a, skip, a, skip, b}; //aab is undefined
+      Point2D.Double[] data4 = {a, skip, a, skip, b}; //aab is undefined
       CMV cmv6 = new CMV(5, data4, param);
       //false since undefined angle
       //assertThat(cmv6.LIC9(), equalTo(false));
@@ -266,16 +266,16 @@ public class Tests {
 
     @Test
     public void calculateAngle(){
-      Point a = new Point(0,0);
-      Point b = new Point(1,0);
-      Point c = new Point(1,1);
-      Point d = new Point(2,0);
+      Point2D.Double a = new Point2D.Double(0,0);
+      Point2D.Double b = new Point2D.Double(1,0);
+      Point2D.Double c = new Point2D.Double(1,1);
+      Point2D.Double d = new Point2D.Double(2,0);
 
-      Point[] data1 = {a,b,c};
+      Point2D.Double[] data1 = {a,b,c};
       CMV cmv1 = new CMV(3, data1, param);
       assertThat(cmv1.calculateAngle(a,b,c), equalTo(Math.PI/2));
 
-      Point[] data2 = {a,b,d};
+      Point2D.Double[] data2 = {a,b,d};
       CMV cmv2 = new CMV(3, data2, param);
       //assertThat(cmv2.calculateAngle(a,b,d), equalTo(Math.PI));
     }
@@ -292,21 +292,21 @@ public class Tests {
       param.BPTS = 1;
       param.RADIUS1 = .5;
       param.RADIUS2 = 2;
-      Point a = new Point(0,0);
-      Point b = new Point(2,0);
-      Point c = new Point(1,0);
+      Point2D.Double a = new Point2D.Double(0,0);
+      Point2D.Double b = new Point2D.Double(2,0);
+      Point2D.Double c = new Point2D.Double(1,0);
       c.setLocation(1,Math.sqrt(3));
-      Point skip = new Point (-5,0);
+      Point2D.Double skip = new Point2D.Double (-5,0);
       //Equilateral triangle of length 2
-      Point[] data1 = {a, skip, b, skip, c};
+      Point2D.Double[] data1 = {a, skip, b, skip, c};
 
       CMV cmv1 = new CMV(5, data1, param);
       //abc is not contained RADIUS1 but is contained in RADIUS2
       assertThat(cmv1.LIC13(), equalTo(true));
 
-      Point d = new Point(4,0);
+      Point2D.Double d = new Point2D.Double(4,0);
       //All a,b and c on x axis
-      Point[] data2 = {a, skip, b, skip, d};
+      Point2D.Double[] data2 = {a, skip, b, skip, d};
       CMV cmv2 = new CMV(5, data2, param);
       //True since a,b,d are exactly on circle of RADIUS2
       assertThat(cmv2.LIC13(), equalTo(true));
