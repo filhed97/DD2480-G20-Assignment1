@@ -66,33 +66,32 @@ public class Tests {
     private Main main = new Main();
 
     @Test
-    public void DECIDE(){
-      CMV MockCMV = mock(CMV.class);
-      boolean[] expected = {true,false,false,true,false,
-                            true,true,true,false, true,
-                            false,false,true,false,true};
+    public void DECIDE() {
+        CMV MockCMV = mock(CMV.class);
+        boolean[] expected = {true, false, false, true, false, true, true, true, false, true, false, false, true, false, true};
 
-      when(MockCMV.LIC0()).thenReturn(expected[0]);
-      when(MockCMV.LIC1()).thenReturn(expected[1]);
-      when(MockCMV.LIC2()).thenReturn(expected[2]);
-      when(MockCMV.LIC3()).thenReturn(expected[3]);
-      when(MockCMV.LIC4()).thenReturn(expected[4]);
-      when(MockCMV.LIC5()).thenReturn(expected[5]);
-      when(MockCMV.LIC6()).thenReturn(expected[6]);
-      when(MockCMV.LIC7()).thenReturn(expected[7]);
-      when(MockCMV.LIC8()).thenReturn(expected[8]);
-      when(MockCMV.LIC9()).thenReturn(expected[9]);
-      when(MockCMV.LIC10()).thenReturn(expected[10]);
-      when(MockCMV.LIC11()).thenReturn(expected[11]);
-      when(MockCMV.LIC12()).thenReturn(expected[12]);
-      when(MockCMV.LIC13()).thenReturn(expected[13]);
-      when(MockCMV.LIC14()).thenReturn(expected[14]);
+        when(MockCMV.LIC0()).thenReturn(expected[0]);
+        when(MockCMV.LIC1()).thenReturn(expected[1]);
+        when(MockCMV.LIC2()).thenReturn(expected[2]);
+        when(MockCMV.LIC3()).thenReturn(expected[3]);
+        when(MockCMV.LIC4()).thenReturn(expected[4]);
+        when(MockCMV.LIC5()).thenReturn(expected[5]);
+        when(MockCMV.LIC6()).thenReturn(expected[6]);
+        when(MockCMV.LIC7()).thenReturn(expected[7]);
+        when(MockCMV.LIC8()).thenReturn(expected[8]);
+        when(MockCMV.LIC9()).thenReturn(expected[9]);
+        when(MockCMV.LIC10()).thenReturn(expected[10]);
+        when(MockCMV.LIC11()).thenReturn(expected[11]);
+        when(MockCMV.LIC12()).thenReturn(expected[12]);
+        when(MockCMV.LIC13()).thenReturn(expected[13]);
+        when(MockCMV.LIC14()).thenReturn(expected[14]);
 
-      when(MockCMV.DECIDE()).thenCallRealMethod();
-      boolean[] effective = MockCMV.DECIDE();
-      for (int i=0; i<15; i++) {
-        assertThat(effective[i], equalTo(expected[i]));
-      }
+        when(MockCMV.DECIDE()).thenCallRealMethod();
+        boolean[] effective = MockCMV.DECIDE();
+        for (int i = 0; i < 15; i++) {
+            assertThat(effective[i], equalTo(expected[i]));
+        }
+    }
 
 
     //Tests that the FUV is filled accordingly to the PUM and the PUV:
@@ -131,9 +130,6 @@ public class Tests {
       for (int i = 3; i < 15; i++ ) {
         assertThat(main.FUV[i], equalTo(true));
       }
-
-
-
     }
 
     // Test launch function.
