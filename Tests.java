@@ -62,38 +62,38 @@ public class Tests {
     @Test
     public void LIC0(){
         param.LENGTH1 = 3;
-        Point a, b;
+        Point2D.Double a, b;
 
-        a = new Point(0, 0);
-        b = new Point(2, 2);
+        a = new Point2D.Double(0, 0);
+        b = new Point2D.Double(2, 2);
 
-        Point[] data1 = {a,b}; // a and b are too close
+        Point2D.Double[] data1 = {a,b}; // a and b are too close
         CMV cmv1 = new CMV(2, data1, param);
         //data1 doesn't satisfy LIC0 thus should not be true
-        assertThat(cmv1.LIC0(), is(not(equalTo(true)))); //lots of syntatic sugar
+        assertThat(cmv1.LIC0(), is(not(equalTo(true))));
 
-        Point c = new Point(4, 0);
-        Point[] data2 = {a,c,b}; // a and c are further than LENGTH apart
+        Point2D.Double c = new Point2D.Double(4, 0);
+        Point2D.Double[] data2 = {a,c,b}; // a and c are further than LENGTH apart
         CMV cmv2 = new CMV(3, data2, param);
         //data2 satisfies LIC0 thus should be true
-        assertThat(cmv2.LIC0(), is(equalTo(true))); //lots of syntatic sugar
+        assertThat(cmv2.LIC0(), is(equalTo(true)));
 
         c.setLocation(3, 0);
-        Point[] data3 = {a,c,b}; // a and c are exactly Length apart
+        Point2D.Double[] data3 = {a,c,b}; // a and c are exactly Length apart
         CMV cmv3 = new CMV(3, data3, param);
         //data3 doesn't satisfy LIC0 thus should not be true
-        assertThat(cmv3.LIC0(), is(not(equalTo(true)))); //lots of syntatic sugar
+        assertThat(cmv3.LIC0(), is(not(equalTo(true))));
     }
 
     @Test
     public void testLIC4() {
         param.QUADS = 1;
-
-        Point a = new Point(1,0);
-        Point b = new Point(-1, 0);
+        param.QPTS = 2;
+        Point2D.Double a = new Point2D.Double(1,0);
+        Point2D.Double b = new Point2D.Double(-1, 0);
 
         // This test isn't passing
-        Point[] data1 = {a, b};
+        Point2D.Double[] data1 = {a, b};
         CMV cmv1 = new CMV(2, data1, param);
         assertThat(cmv1.LIC4(), is(equalTo(true)));
 
@@ -106,19 +106,19 @@ public class Tests {
     public void testLIC8() {
         param.RADIUS1 = 2;
         param.APTS = 1;
-        param.APTS = 2;
+        param.BPTS = 2;
 
-        Point a = new Point(1, 0);
-        Point b = new Point(0, 1);
-        Point c = new Point(0, -1);
-        Point d = new Point(5, 0);
+        Point2D.Double a = new Point2D.Double(1, 0);
+        Point2D.Double b = new Point2D.Double(0, 1);
+        Point2D.Double c = new Point2D.Double(0, -1);
+        Point2D.Double d = new Point2D.Double(5, 0);
 
         // This test isn't passing.
-        Point[] data1 = {a, d, b, d, d, c};
+        Point2D.Double[] data1 = {a, d, b, d, d, c};
         CMV cmv1 = new CMV(6, data1, param);
         assertThat(cmv1.LIC8(), is(equalTo(true)));
 
-        Point[] data2 = {a, d, d, b, d, c};
+        Point2D.Double[] data2 = {a, d, d, b, d, c};
         CMV cmv2 = new CMV(6, data2, param);
         assertThat(cmv2.LIC8(), is(equalTo(false)));
     }
@@ -129,15 +129,15 @@ public class Tests {
         param.LENGTH2 = 6;
         param.KPTS = 1;
 
-        Point a = new Point(0, 0);
-        Point b = new Point (5, 0);
-        Point c = new Point(8, 0);
+        Point2D.Double a = new Point2D.Double(0, 0);
+        Point2D.Double b = new Point2D.Double (5, 0);
+        Point2D.Double c = new Point2D.Double(8, 0);
 
-        Point[] data1 = {a, c, b};
+        Point2D.Double[] data1 = {a, c, b};
         CMV cmv1 = new CMV(3, data1, param);
         assertThat(cmv1.LIC12(), is(equalTo(true)));
 
-        Point[] data2 = {a, b, c};
+        Point2D.Double[] data2 = {a, b, c};
         CMV cmv2 = new CMV(3, data2, param);
         assertThat(cmv2.LIC12(), is(equalTo(false)));
     }
@@ -342,26 +342,26 @@ public class Tests {
       Point2D.Double[] data1 = {a, b, c}; //abc is a PI/2 rad angle
       CMV cmv1 = new CMV(3, data1, param);
       //Should be true since PI/2 is less than PI-EPSILON=3PI/4
-      assertThat(cmv1.DECIDE()[2], equalTo(true));
+      assertThat(cmv1.LIC2(), equalTo(true));
 
 	  //Test 2, check angle > PI+EPSILON.
       Point2D.Double[] data2 = {a, b, e}; //abe is a 3PI/2 rad angle
       CMV cmv2 = new CMV(3, data2, param);
       //Should be success since 3PI/2 is larger than 5PI/4
-      assertThat(cmv2.DECIDE()[2], equalTo(true));
+      assertThat(cmv2.LIC2(), equalTo(true));
 
 	  //Test 3, check if angle lays between PI-EPSILON and PI+EPSILON
 	  d.setLocation(0.0, 1.100);
       Point2D.Double[] data3 = {a, b, d}; //abd is a PI rad angle
       CMV cmv3 = new CMV(3, data3, param);
       //Should be false since PI lies in PI +/- EPSILON
-      assertThat(cmv3.DECIDE()[2], equalTo(false));
+      assertThat(cmv3.LIC2(), equalTo(false));
 
 	  //Test 4, edge case if some point shares same coordinates as pivot point.
       Point2D.Double[] data4 = {a, b, b}; //abb is undefined
       CMV cmv4 = new CMV(3, data4, param);
       //Should be false since angle is undefined.
-      assertThat(cmv4.DECIDE()[2], equalTo(false));
+      assertThat(cmv4.LIC2(), equalTo(false));
 
 	  //Test 5, edge case where EPSILON = 0.
 	  param.EPSILON = 0;
@@ -369,7 +369,7 @@ public class Tests {
 	  Point2D.Double[] data5 = {a, b, d}; //abc is a PI rad angle
       CMV cmv5 = new CMV(3, data5, param);
       //Should be false, since angle should be strictly smaller or larger than PI.
-      assertThat(cmv5.DECIDE()[2], equalTo(false));
+      assertThat(cmv5.LIC2(), equalTo(false));
     }
 
 	//Tests true iff some point between i and i+NPTS has distance greater
@@ -394,19 +394,19 @@ public class Tests {
 		Point2D.Double[] data1 = {a, c, d}; //In a coordinate system x/y, the line a-d follows the x-axis from 0 to 3.
 		CMV cmv1 = new CMV(3, data1, param);
 		//Should be false, since dist is 2, and the distance from c to the x-axis is 1.
-		assertThat(cmv1.DECIDE()[6], equalTo(false));
+		assertThat(cmv1.LIC6(), equalTo(false));
 
 		//Test 2, check case where distance from middle point to line is 3, and dist is 2.
 		Point2D.Double[] data2 = {a, b, d}; //In a coordinate system x/y, the line a-d follows the x-axis from 0 to 3.
 		CMV cmv2 = new CMV(3, data2, param);
 		//Should be true, since dist is 2, and the distance from b to the x-axis is 3.
-		assertThat(cmv2.DECIDE()[6], equalTo(true));
+		assertThat(cmv2.LIC6(), equalTo(true));
 
 		//Test 3, check case where edge points coincide.
 		Point2D.Double[] data3 = {a, d, a};
 		CMV cmv3 = new CMV(3, data3, param);
 		//Should be true, since dist is 2, and the distance from a to d is 3.
-		assertThat(cmv3.DECIDE()[6], equalTo(true));
+		assertThat(cmv3.LIC6(), equalTo(true));
 
         b.setLocation(1, 0.0001);
 		//Test 4, check case where DIST = 0, i.e. every input should be true.
@@ -414,13 +414,13 @@ public class Tests {
 		Point2D.Double[] data4 = {a, b, d};
 		CMV cmv4 = new CMV(3, data4, param);
 		//Should be true, since any point not on the line should fulfill the distance condition
-		assertThat(cmv4.DECIDE()[6], equalTo(true));
+		assertThat(cmv4.LIC6(), equalTo(true));
 
 		//Test 5, not enough points.
 		Point2D.Double[] data5 = {a, d};
 		CMV cmv5 = new CMV(2, data4, param);
 		//Should be false, not enough data.
-		assertThat(cmv5.DECIDE()[6], equalTo(false));
+		assertThat(cmv5.LIC6(), equalTo(false));
 
 	}
 
@@ -442,19 +442,19 @@ public class Tests {
 		Point2D.Double[] data1 = {a, filler, b, filler, c}; //creates a triangle with area 0.5
 		CMV cmv1 = new CMV(5, data1, param);
 		//Should be false, 0.5<1.
-		assertThat(cmv1.DECIDE()[10], equalTo(false));
+		assertThat(cmv1.LIC10(), equalTo(false));
 
 		//Test 2, check case where area is smaller than AREA1.
 		param.AREA1 = 0.1;
 		CMV cmv2 = new CMV(5, data1, param); //triangle abc with area 0.5
 		//Should be true, 0.5>0.1.
-		assertThat(cmv2.DECIDE()[10], equalTo(true));
+		assertThat(cmv2.LIC10(), equalTo(true));
 
 		//Test 3, not enough data.
 		Point2D.Double[] data2 = {a, b, filler, c};
 		CMV cmv3 = new CMV(4, data2, param);
 		//Should be false, must have at least 5 data points.
-		assertThat(cmv3.DECIDE()[10], equalTo(false));
+		assertThat(cmv3.LIC10(), equalTo(false));
 	}
 
 
@@ -476,20 +476,20 @@ public class Tests {
 		Point2D.Double[] data1 = {c, filler, b ,filler, a, filler, d, filler, e}; //cba = 0.5, ade = 1.
 		CMV cmv1 = new CMV(9, data1, param);
 		//Should be true, since cba < AREA2 and ade > AREA1.
-		assertThat(cmv1.DECIDE()[14], equalTo(true));
+		assertThat(cmv1.LIC14(), equalTo(true));
 
 		//Test 2, check case where only one condition is met.
 		param.AREA1 = 2;
 		param.AREA2 = 2;
 		CMV cmv2 = new CMV(9, data1, param);
 		//Should be false, since cba and ade < AREA2 but biggest triangle ade (=1) not bigger AREA1 or AREA2.
-		assertThat(cmv2.DECIDE()[14], equalTo(false));
+		assertThat(cmv2.LIC14(), equalTo(false));
 
 		//Test 3, too little data;
 		Point2D.Double[] data2 = {a, b, c, d};
 		CMV cmv3 = new CMV(4, data2, param);
 		//Should be false, only 4 data points, need 5.
-		assertThat(cmv3.DECIDE()[14], equalTo(false));
+		assertThat(cmv3.LIC14(), equalTo(false));
 	}
 
 	//Tests true iff there exists 3 consecutive points that together form
@@ -505,20 +505,20 @@ public class Tests {
         Point2D.Double[] data1 = {a, b, c}; // a,b,c creates triangle with same area
         CMV cmv1 = new CMV(3, data1, param);
         //data1 doesn't satisfy LIC3 thus should not be true
-        assertThat(cmv1.DECIDE()[3], is(not(equalTo(true))));
+        assertThat(cmv1.LIC3(), is(not(equalTo(true))));
 
         Point2D.Double d = new Point2D.Double(6, 3);
         Point2D.Double[] data2 = {a, b, c, d}; // b, c, d creates triangle with area larger than AREA1
         CMV cmv2 = new CMV(4, data2, param);
         //data2 satisfies LIC3 thus should be true
-        assertThat(cmv2.DECIDE()[3], is(equalTo(true))); //lots of syntatic sugar
+        assertThat(cmv2.LIC3(), is(equalTo(true))); //lots of syntatic sugar
 
         param.AREA1 = 5;
         e = new Point2D.Double(3, 3);
         Point2D.Double[] data3 = {a, b, c, e, d}; // no triangle with area larger than AREA1 exists
         CMV cmv3 = new CMV(5, data3, param);
         //data1 doesn't satisfy LIC3 thus should not be true
-        assertThat(cmv1.DECIDE()[3], is(not(equalTo(true))));
+        assertThat(cmv1.LIC3(), is(not(equalTo(true))));
     }
 
     //Tests true iff there exists 2 consecutive points such that
@@ -557,25 +557,25 @@ public class Tests {
         Point2D.Double[] data1 = {a, b, c}; // a and c are further than LENGTH apart
         CMV cmv1 = new CMV(3, data1, param);
         //data1 satisfies LIC7 thus should be true
-        assertThat(cmv1.DECIDE()[7], is(equalTo(true))); //lots of syntatic sugar
+        assertThat(cmv1.LIC7(), is(equalTo(true))); //lots of syntatic sugar
 
         c.setLocation(3,0);
         Point2D.Double[] data2 = {a, b, c}; // a and c are exactly Length apart
         CMV cmv2 = new CMV(3, data2, param);
         //data2 doesn't satisfy LIC7 thus should not be true
-        assertThat(cmv2.DECIDE()[7], is(not(equalTo(true)))); //lots of syntatic sugar
+        assertThat(cmv2.LIC7(), is(not(equalTo(true)))); //lots of syntatic sugar
 
         param.KPTS = 2;
         Point2D.Double d = new Point2D.Double(3, 3);
         Point2D.Double[] data3 = {b, a, c, b, d}; // a and d are further than LENGTH apart
         CMV cmv3 = new CMV(5, data3, param);
         //data3 satisfies LIC7 thus should be true
-        assertThat(cmv3.DECIDE()[7], is(equalTo(true))); //lots of syntatic sugar
+        assertThat(cmv3.LIC7(), is(equalTo(true))); //lots of syntatic sugar
 
         Point2D.Double[] data4 = {b, c, a, b, d}; // no points separated by KPTS are further than LENGTH apart
         CMV cmv4 = new CMV(5, data4, param);
         //data4 doesn't satisfy LIC7 thus not should be true
-        assertThat(cmv2.DECIDE()[7], is(not(equalTo(true)))); //lots of syntatic sugar
+        assertThat(cmv2.LIC7(), is(not(equalTo(true)))); //lots of syntatic sugar
     }
 
     //Assuming that the angle of 3 points is in rad in [0, PI].
@@ -644,19 +644,19 @@ public class Tests {
         Point2D.Double[] data1 = {b, a, a}; // a.X - b.X = 2-0 = 2
         CMV cmv1 = new CMV(2, data1, param);
         //should be false
-        assertThat(cmv1.DECIDE()[11], equalTo(false));
+        assertThat(cmv1.LIC11(), equalTo(false));
 
         Point2D.Double[] data2 = {a,a,a,a,a,a}; //needs to be strictly smaller
         CMV cmv2 =  new CMV(6, data2,param);
         //data2 doesn't satisfy LIC7 thus should not be true
-        assertThat(cmv2.DECIDE()[11], equalTo(false));// a.X - a.X not strictly less than 0
+        assertThat(cmv2.LIC11(), equalTo(false));// a.X - a.X not strictly less than 0
 
         param.GPTS = 2;
         Point2D.Double d = new Point2D.Double(2, 2);
         Point2D.Double[] data3 = {b, a, a, c, d, c}; //a followed by c satisfies the condition c.X - a.X = 1-2 = -1
         CMV cmv3 =  new CMV(6, data3,param);
         //data1 satisfies LIC11 thus should be true
-        assertThat(cmv3.DECIDE()[11], equalTo(true));
+        assertThat(cmv3.LIC11(), equalTo(true));
     }
 
     @Test

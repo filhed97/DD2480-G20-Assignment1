@@ -137,7 +137,7 @@ public class CMV{
         int nbUsed = 0;
         //The quadrant where the current point evaluated is
         int currQuad = 0;
-        for (int i = 0; i < NUMPOINTS - param.QPTS; i++) {
+        for (int i = 0; i < NUMPOINTS - param.QPTS + 1; i++) {
             //Reset to false every new QPTS points
             Arrays.fill(quadUsed, Boolean.FALSE);
             nbUsed = 0;
@@ -146,7 +146,9 @@ public class CMV{
                 //Find the quad of the curr point
                 //If it's the first in this quad increase nbUsed
                 //and update the quadUsed entry
+
                 currQuad = getQuad(POINTS[j]);
+                System.out.println("("+POINTS[j].getX()+", "+POINTS[j].getY()+") : "+ currQuad);
                 if (currQuad == 0) {
                     System.err.println("LIC4: not quadrant found");
                     return false;
@@ -239,7 +241,7 @@ public class CMV{
       }
       if(NUMPOINTS < 5) return false;
 
-      Point a, b, c;
+      Point2D.Double a, b, c;
       boolean inCircle;
       for (int i = 0; i < NUMPOINTS - param.APTS - param.BPTS - 2; i++) {
         a = POINTS[i];
