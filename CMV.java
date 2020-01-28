@@ -109,6 +109,7 @@ public class CMV{
   		}
         return false;
     }
+
     public boolean LIC10(){
       return false;
     }
@@ -124,7 +125,7 @@ public class CMV{
     public boolean LIC13(){
 		boolean condition1 = false;
 		boolean condition2 = false;
-    Point centre = null;
+        Point centre = null;
 		for(int i = 0; i<NUMPOINTS-(param.APTS+param.BPTS +2); i++){
 			Point a,b,c;
 			a = POINTS[i];
@@ -154,7 +155,6 @@ public class CMV{
 
     public boolean LIC14(){
       return false;
-
     }
 
     //Calcultaes the area of the traignle defined by the three points a, b, c
@@ -207,5 +207,4 @@ public class CMV{
       double r = l1 * l2 * l3 / Math.sqrt((l1+l2+l3)*(l2+l3-l1)*(l3+l1-l2)*(l1+l2-l3));
       return r;
     }
-
 }
