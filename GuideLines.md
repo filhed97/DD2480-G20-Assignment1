@@ -15,19 +15,18 @@ Here are the current individual tasks:
 * Filip
   1. Variables & Skeleton
   2. CMV function 1,5,9 and 13
-  3. PUM function
-  4. Tests 2,6,10 and 14
+  3. Tests 2,6,10 and 14
 
 * Emil
   1. CMV function 2,6,10 and 14
-  2. FUV function
+  2. FUV, main function
   3. Tests 0,3,7 and 11
-  4. Write main function
+  4. PUM test
   5. 1 test project
 
 * Susie
   1. CMV function 3,7 and 11
-  2. LAUNCH function
+  2. PUM, LAUNCH function
   3. Tests 4,8 and 12
   4. Test LAUNCH
 
