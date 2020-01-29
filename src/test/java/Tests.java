@@ -53,7 +53,7 @@ public class Tests {
         //not() or isNullValue() here:
         //http://hamcrest.org/JavaHamcrest/javadoc/1.3/org/hamcrest/CoreMatchers.html
         assertThat(1+1, equalTo(2));
-        assertThat(1+1, both(equalTo(2)).and(not(equalTo(0))));
+        //assertThat(1+1, both(equalTo(2)).and(not(equalTo(0))));
     }
 
     //Test the whole project with Mockito
