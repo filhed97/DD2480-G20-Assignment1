@@ -56,6 +56,9 @@ public class Tests {
         assertThat(1+1, both(equalTo(2)).and(not(equalTo(0))));
     }
 
+    //Test the whole project with Mockito
+    //such that each LIC returns true.
+    //the launch output then has to be coherent with the inputs
     @Test
     public void Main1(){
         Main main = new Main();
@@ -63,6 +66,7 @@ public class Tests {
         main.POINTS = new Point2D.Double[]{new Point2D.Double(0, 0), new Point2D.Double(100, 5), new Point2D.Double(-1, 5), new Point2D.Double(14.2, 0), new Point2D.Double(0, -5)};
         main.PARAMETERS = new Parameters(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19);
 
+        //Mock CMV class with DECIDE() that returns true vector
         boolean[] expected = new boolean[15];
         Arrays.fill(expected, true);
         main.cmv = mock(CMV.class);
@@ -87,6 +91,7 @@ public class Tests {
     }
 
     //Test using LIC 0, 3, 5 and 11
+    //The expected outputs are commented below
     @Test
     public void Main2(){
       Main main = new Main();
