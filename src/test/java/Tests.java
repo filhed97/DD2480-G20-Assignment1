@@ -129,16 +129,19 @@ public class Tests {
       assertThat(main.LAUNCH, equalTo(false));
     }
 
+	//Tests complete program with values which should result in a launch
 	@Test
     public void Main3(){
         Main main = new Main();
 		main.NUMPOINTS = 27;
+		//Datapoints are mostly sourced from unit tests of individual LIC's such that each relevant LIC should be true in the CMV.
 		main.POINTS = new Point2D.Double[]{new Point2D.Double(0, 0), new Point2D.Double(1, 0), new Point2D.Double(0, 1), new Point2D.Double(2, 1),
 		new Point2D.Double(1, 1),new Point2D.Double(1,2),new Point2D.Double(0,0),new Point2D.Double(4,0),new Point2D.Double(0,4),new Point2D.Double(0,0),
 		new Point2D.Double(1,3),new Point2D.Double(3,0),new Point2D.Double(0,0),new Point2D.Double(-2,0),new Point2D.Double(0,0),new Point2D.Double(0,0),
 		new Point2D.Double(1,0),new Point2D.Double(0,0),new Point2D.Double(0,1),new Point2D.Double(0,4),new Point2D.Double(0,0),new Point2D.Double(4,0),
 		new Point2D.Double(0,0),new Point2D.Double(-5,0),new Point2D.Double(4,0),new Point2D.Double(-5,0),new Point2D.Double(1,0)};
 
+		//Reminder of input order in PARAMETERS:
 		//double LENGTH1,double RADIUS1,double EPSILON,double AREA1,int QPTS,
 		//int QUADS,double DIST,int NPTS,int KPTS,int APTS,int BPTS,int CPTS, int DPTS,
 		//int EPTS, int FPTS, int GPTS,double LENGTH2,double RADIUS2,double AREA2
@@ -148,18 +151,27 @@ public class Tests {
 				for (int j = 0; j<15; j++) {
 					//Expected output
 					//LIC #1,2,3,5,6,7,9,10,11,13,14 should be true, rest are irrelevant due to PUV.
+					//Set all entries in LCM to ORR, the launch should happen since all the considered LIC's should be true.
+					//Diagonal entries not relevant so set to NOTUSED.
 					if(i == j)
 						main.LCM[i][i] = Main.LogicalOperators.NOTUSED;
 
 					main.LCM[i][j] = Main.LogicalOperators.ORR;
 				}
 		  }
+		  
+		  //All LIC's except for 0,4,8 and 12 should be considered when determining launch 
+		  //LIC's 0,4,8 and 12 have not been considered when creating the data points, so they might be true or false.
+		  //PUV says they should not hold back launch despite their values, so they are set to false in the PUV.
 		  main.PUV = new boolean[15];
 		  Arrays.fill(main.PUV, true);
 		  main.PUV[0]=false;
 		  main.PUV[4]=false;
 		  main.PUV[8]=false;
 		  main.PUV[12]=false;
+		  
+		  //Call main function to determine launch with the data provided above.
+		  //Should be true.
 		  main.getLaunch(false);
 		  assertThat(main.LAUNCH, equalTo(true));
     }
