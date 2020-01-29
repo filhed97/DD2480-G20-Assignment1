@@ -50,6 +50,22 @@ The object `Parameters` is composed of numerous values given in the order used b
 
 The program outputs the boolean value `LAUNCH` that determines whether the launch is intercepted or not.
 
+## Build
+
+You can compile the different files with
+```shell
+javac Main.java CMV.java Parameters.java
+```
+and the Tests file with
+```shell
+javac -cp .:junit-4.13.jar:hamcrest-core-1.3.jar:mockito-all-1.9.5.jar Tests.java
+```
+
+Test the program with 
+```shell
+java -cp .:junit-4.13.jar:hamcrest-core-1.3.jar:mockito-all-1.9.5.jar org.junit.runner.JUnitCore Tests
+```
+
 ## Statement of contribution
 
 |Emil|Filip |

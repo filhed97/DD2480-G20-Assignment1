@@ -3,9 +3,9 @@ import java.awt.geom.Point2D;
 public class Main{
 
     public enum LogicalOperators {
-  	   NOTUSED,
-  	   ORR,
- 	     ANDD
+        NOTUSED,
+        ORR,
+        ANDD
     }
 
     public int NUMPOINTS;
@@ -13,14 +13,22 @@ public class Main{
     public Parameters PARAMETERS;
     public LogicalOperators[][] LCM = new LogicalOperators[15][15];
     public boolean[] PUV = new boolean[15];
+    public CMV cmv;
+    public boolean[] cmvResult = new boolean[15];
     public boolean LAUNCH;
-    public boolean[] cmv = new boolean[15];
     public boolean[][] PUM = new boolean[15][15];
     public boolean[] FUV = new boolean[15];
+    
+    public static void main(String[] args){}
 
-    public static void main(String[] args){
-
-
+    public void getLaunch(boolean mockTesting){
+      if(!mockTesting){
+        cmv = new CMV(NUMPOINTS, POINTS, PARAMETERS);
+      }
+      cmvResult = cmv.DECIDE();
+      fillPUM();
+      fillFUV();
+      makeLaunchDecision();
     }
 
     /**
@@ -34,14 +42,14 @@ public class Main{
                     PUM[i][j] = true;
 
                 } else if (LCM[i][j] == LogicalOperators.ORR) {
-                    if (cmv[i] || cmv[j]) {
+                    if (cmvResult[i] || cmvResult[j]) {
                         PUM[i][j] = true;
                     } else {
                         PUM[i][j] = false;
                     }
 
                 } else if (LCM[i][j] == LogicalOperators.ANDD) {
-                    if (cmv[i] && cmv[j]) {
+                    if (cmvResult[i] && cmvResult[j]) {
                         PUM[i][j] = true;
                     } else {
                         PUM[i][j] = false;

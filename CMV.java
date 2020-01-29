@@ -40,11 +40,6 @@ public class CMV{
 
     //True iff there exists 2 points at a smaller distance than LENGTH1
     public boolean LIC0(){
-      //Argument check
-      if(param.LENGTH1 < 0){
-        System.err.println("LIC0: negative LENGTH1");
-        return false;
-      }
       for (int i = 0; i < NUMPOINTS - 1; i++) {
         if(dist(POINTS[i],POINTS[i+1]) > param.LENGTH1){
           return true;
@@ -127,10 +122,6 @@ public class CMV{
     //True iff exists points in QPTS consecutive points
     //that are located in QUADS different quadrants.
     public boolean LIC4() {
-        if (param.QPTS < 2 || param.QPTS > NUMPOINTS || param.QUADS < 1 || param.QUADS > 3) {
-            System.err.println("LIC4: argument(s) out of bounds");
-            return false;
-        }
         //One entry per quadrant, true iff exists a point in the quadrant
         boolean[] quadUsed = new boolean[4];
         //Counter of the nb of quadrants set to true
@@ -148,7 +139,6 @@ public class CMV{
                 //and update the quadUsed entry
 
                 currQuad = getQuad(POINTS[j]);
-                System.out.println("("+POINTS[j].getX()+", "+POINTS[j].getY()+") : "+ currQuad);
                 if (currQuad == 0) {
                     System.err.println("LIC4: not quadrant found");
                     return false;
@@ -226,19 +216,10 @@ public class CMV{
         return false;
     }
 
-    //-----> IMPORTANT <-----
-    //If this implementation fails try LIC1 implementation
-    //before trying to hard to solve this one.
-    //
+
     //True iff 3 consecutive points sperated by APTS and BPTS respectively
     //are contained in a circle of radius RADIUS1
     public boolean LIC8(){
-      //Argument check
-      if(param.APTS < 1 || param.BPTS < 1 || param.RADIUS1 < 0 ||
-      param.APTS + param.BPTS > NUMPOINTS - 3 ){
-        System.err.println("LIC8: argument(s) out of bounds");
-        return false;
-      }
       if(NUMPOINTS < 5) return false;
 
       Point2D.Double a, b, c;
@@ -313,11 +294,6 @@ public class CMV{
     //such that: the points of one pair are at a distance smaller than LENGTH1 and
     //the points of the other pair are at a distance greater than LENGTH2.
     public boolean LIC12() {
-        //Argument check
-        if (param.LENGTH1 < 0 || param.LENGTH2 < 0 || param.KPTS < 1) {
-            System.err.println("LIC12: Argument(s) out of bounds");
-            return false;
-        }
         if (NUMPOINTS < 3) return false;
         //true iff distance is smaller than LENGTH1 // should be greater than LENGTH1
         boolean l1 = false;
@@ -394,7 +370,7 @@ public class CMV{
     }
 
     //Calcultaes the area of the traignle defined by the three points a, b, c
-    private double calculateTriangleArea(Point2D.Double a, Point2D.Double b, Point2D.Double c){
+    public double calculateTriangleArea(Point2D.Double a, Point2D.Double b, Point2D.Double c){
       return Math.abs((a.getX() * (b.getY() - c.getY()) + b.getX() * (c.getY() - a.getY()) + c.getX()*(a.getY() - b.getY()))/2);
     }
 
@@ -404,24 +380,24 @@ public class CMV{
     }
 
     //Calculates the distance between two points
-    private double distancePoint(Point2D.Double a, Point2D.Double b){
+    public double distancePoint(Point2D.Double a, Point2D.Double b){
       return Math.sqrt(Math.pow(a.getX() - b.getX(), 2) + Math.pow(a.getY() - b.getY(), 2));
     }
 
     //Calcultaes the distance from point p to the line passing through startPoint and endPoint
-    private double distanceToLine(Point2D.Double startPoint, Point2D.Double endPoint, Point2D.Double p){
+    public double distanceToLine(Point2D.Double startPoint, Point2D.Double endPoint, Point2D.Double p){
       return (Math.abs(p.getX() * (endPoint.getY() - startPoint.getY()) - p.getY() * (endPoint.getX() - startPoint.getX()) + endPoint.getX() * startPoint.getY() - endPoint.getY() * startPoint.getX()))/distancePoint(endPoint, startPoint);
     }
 
     //Utilitary function for LIC0 and LIC8
     //Compute the Euclidean distance between Points a and b
-    private double dist(Point2D.Double a, Point2D.Double b){
+    public double dist(Point2D.Double a, Point2D.Double b){
       return Math.sqrt(Math.pow(a.getX()-b.getX(),2)+Math.pow(a.getY()-b.getY(),2));
     }
 
     //Utilitary function for LIC4. Finds in which quadrant
     //the Point a is. Returns 1, 2, 3, 4 or 0 if none found.
-    private int getQuad(Point2D.Double a){
+    public int getQuad(Point2D.Double a){
       double x = a.getX();
       double y = a.getY();
       if(x >= 0 && y >= 0) return 1; //both axis included plus (0,0)
@@ -435,7 +411,7 @@ public class CMV{
     //Computes the radius of the circumcircle of the triangle formed by a,b and c,
     //i.e. the radius of the circle that passes through a, b and c.
     //The formula comes from https://www.mathopenref.com/trianglecircumcircle.html
-    private double getRadiusCircle(Point2D.Double a, Point2D.Double b, Point2D.Double c){
+    public double getRadiusCircle(Point2D.Double a, Point2D.Double b, Point2D.Double c){
       double l1 = dist(a,b);
       double l2 = dist(a,c);
       double l3 = dist(b,c);
