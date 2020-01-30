@@ -20,7 +20,9 @@ public class Main{
     public boolean[][] PUM = new boolean[15][15];
     public boolean[] FUV = new boolean[15];
 
-    public static void main(String[] args){}
+    public static void main(String[] args){
+      System.out.println("------------ Main ran sucessfully! ------------");
+    }
 
     public void getLaunch(boolean mockTesting){
       if(!mockTesting){
