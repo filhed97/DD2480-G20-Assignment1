@@ -1,3 +1,4 @@
+
 import java.awt.geom.Point2D;
 
 public class Main{
@@ -18,7 +19,7 @@ public class Main{
     public boolean LAUNCH;
     public boolean[][] PUM = new boolean[15][15];
     public boolean[] FUV = new boolean[15];
-    
+
     public static void main(String[] args){}
 
     public void getLaunch(boolean mockTesting){
