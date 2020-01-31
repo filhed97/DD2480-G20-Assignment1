@@ -35,6 +35,7 @@ public class Tests {
         //http://junit.sourceforge.net/javadoc/org/junit/Assert.html
         assertEquals(0, 10*0);
         assertFalse(0 == 1);
+        assertEquals(0,1);
         //assertNotEquals(1,1);//This assertion obviously fails
 
         //Edit: Here is a description of the testing library Hamcrest but
@@ -159,8 +160,8 @@ public class Tests {
 					main.LCM[i][j] = Main.LogicalOperators.ORR;
 				}
 		  }
-		  
-		  //All LIC's except for 0,4,8 and 12 should be considered when determining launch 
+
+		  //All LIC's except for 0,4,8 and 12 should be considered when determining launch
 		  //LIC's 0,4,8 and 12 have not been considered when creating the data points, so they might be true or false.
 		  //PUV says they should not hold back launch despite their values, so they are set to false in the PUV.
 		  main.PUV = new boolean[15];
@@ -169,7 +170,7 @@ public class Tests {
 		  main.PUV[4]=false;
 		  main.PUV[8]=false;
 		  main.PUV[12]=false;
-		  
+
 		  //Call main function to determine launch with the data provided above.
 		  //Should be true.
 		  main.getLaunch(false);
